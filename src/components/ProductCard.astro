@@ -1,0 +1,20 @@
+---
+import { Colors } from '@utils/colors';
+import type { Product } from '@lib/interfaces/product';
+
+const { product } = Astro.props as { product: Product };
+
+const [whole, decimal] = product.priceProduct.toFixed(2).split(".");
+---
+
+<div style={`background-color: ${Colors.secondaryBlush};`} class="w-[250px] hover:scale-105 transition-transform duration-300">
+  <a href={`/product/${product.idProduct}`}>
+  <img src={product.imgProduct} alt={product.nameProduct} class="w-full h-[250px] object-cover " transition:name={`img-product-${product.idProduct}`}/>
+  <div class="p-4">
+    <p class="my-2 text-[16px]" >{product.nameProduct}</p>
+    <p class="text-gray-900 text-[25px] font-semibold">
+      ${whole}<span class="text-[14px] ml-[1px]">.{decimal}</span>
+    </p>
+  </div>
+  </a>
+</div>

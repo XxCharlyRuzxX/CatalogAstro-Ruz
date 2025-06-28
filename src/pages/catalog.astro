@@ -1,0 +1,13 @@
+---
+import Layout from "@layouts/Layout.astro";
+import CatalogComponent from "@/components/catalog/CatalogComponent";
+export const prerender = true;
+
+---
+
+<Layout>
+<div>
+  <h1 class="text-3xl font-bold text-center pt-8 bg-(--primary-blush)">Catálogo</h1>
+  <CatalogComponent client:load/>
+</div>
+</Layout>

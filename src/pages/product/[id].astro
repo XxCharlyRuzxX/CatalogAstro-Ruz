@@ -1,0 +1,70 @@
+---
+import Footer from '@/components/Footer.astro';
+import Layout from '@layouts/Layout.astro';
+import type { Product } from "@lib/interfaces";
+import { productService, type GetProductsParams, } from "@lib/service/productService";
+import { Image } from "astro:assets";
+
+export async function getStaticPaths() {
+  const products: Product[] = await productService.getAll();
+  return products.map((product) => ({
+    params: { id: product.idProduct },
+  }));
+}
+
+const { id } = Astro.params;
+const params: GetProductsParams = { id };
+const product: Product = await productService.getById(params);
+export const prerender = true;
+
+
+
+---
+
+<Layout>
+  <div class="min-h-screen bg-(--primary-blush)">
+    <div class="flex justify-center p-25">
+      <div class="grid grid-cols-1 md:grid-cols-2 w-full max-w-6xl">
+        <div
+          class="flex flex-col items-center justify-center text-center gap-y-2"
+        >
+          <Image
+            src={product?.imgProduct}
+            alt={product?.nameProduct}
+            transition:name={`img-product-${product.idProduct}`}
+            class="w-full max-w-sm h-auto"
+            loading="lazy"
+            width={300}
+            height={300}
+          />
+          <button
+            class="text-white bg-(--primary-green) w-full max-w-sm px-4 py-2 hover:bg-lime-800 transition-colors duration-300"
+          >
+            Añadir al carrito
+          </button>
+        </div>
+        <div class="flex flex-col gap-6">
+          <div>
+            <h1 class="text-3xl font-semibold">{product?.nameProduct}</h1>
+          </div>
+          <div>
+            <p class="font-semibold text-2xl">Descripción</p>
+            <p class="text-xl">{product?.description}</p>
+          </div>
+          <div>
+            <p class="font-semibold text-2xl">Marca</p>
+            <p class="text-xl">{product?.brand}</p>
+          </div>
+          <div>
+            <p class="font-semibold text-2xl">Categorías</p>
+            <p class="text-xl">{product?.categoriesProduct?.map((category) => category.name).join(", ") ?? "Sin categoría"}</p>
+          </div>
+          <div>
+            <p class="font-semibold text-2xl">Precio</p>
+            <p class="text-xl">$ {product?.priceProduct}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

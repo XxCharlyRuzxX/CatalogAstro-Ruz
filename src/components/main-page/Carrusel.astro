@@ -1,0 +1,99 @@
+---
+const images = [
+  "/images/carrusel/libelulaCarrusel.png",
+  "/images/carrusel/libelulaCarrusel2.jpg",
+  "/images/carrusel/libelulaCarrusel3.jpg",
+];
+---
+
+<div class="w-full h-[66vh] relative overflow-hidden">
+  <div
+    id="carousel"
+    class="flex transition-transform duration-700 ease-in-out h-full"
+    style="transform: translateX(0%)"
+  >
+    {images.map((src, i) => (
+      <img
+        src={src}
+        alt={`Imagen ${i + 1}`}
+        class="w-full flex-shrink-0 h-full object-cover"
+      />
+    ))}
+  </div>
+
+  <div
+    id="indicators"
+    class="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-10 cursor-pointer"
+  >
+    {images.map((_, i) => (
+      <span
+        class="w-4 h-4 rounded-full bg-white/50 border border-white opacity-50 transition-all"
+        data-index={i}
+      ></span>
+    ))}
+  </div>
+</div>
+
+<style>
+  img {
+    mask-image: linear-gradient(
+      to top,
+      black 90%,
+      transparent
+    );
+  }
+  </style>
+
+<script>
+  let current = 0;
+  const total = 3;
+  let intervalId: ReturnType<typeof setInterval> | undefined;
+
+  function updateSlide() {
+    const carousel = document.getElementById("carousel");
+    const indicators = document.querySelectorAll("#indicators span");
+
+    if (carousel) {
+      carousel.style.transform = `translateX(-${current * 100}%)`;
+    }
+
+    indicators.forEach((dot, i) => {
+      if (i === current) {
+        dot.classList.add("opacity-100", "bg-black-100");
+        dot.classList.remove("opacity-50", "bg-black/50");
+      } else {
+        dot.classList.add("opacity-50", "bg-black/50");
+        dot.classList.remove("opacity-100", "bg-black");
+      }
+    });
+  }
+
+  function goToSlide(index: number) {
+    current = index;
+    updateSlide();
+    resetInterval();
+  }
+
+  function nextSlide() {
+    current = (current + 1) % total;
+    updateSlide();
+  }
+
+  function resetInterval() {
+    clearInterval(intervalId);
+    intervalId = setInterval(nextSlide, 8000);
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const indicators = document.querySelectorAll("#indicators span");
+    indicators.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const index = parseInt(dot.getAttribute("data-index") || "0");
+        goToSlide(index);
+      });
+    });
+
+    updateSlide();
+    intervalId = setInterval(nextSlide, 5000);
+  });
+</script>

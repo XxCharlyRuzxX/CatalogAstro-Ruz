@@ -1,0 +1,23 @@
+---
+import type { Product } from "@lib/interfaces/product";
+import { type GetProductsParams, productService } from "@lib/service/productService";
+import ProductCard from "@components/ProductCard.astro";
+import { Colors } from "@utils/colors";
+
+const params: GetProductsParams = {
+  filtredbyCategory: "Nuevos",
+};
+
+const products: Product[] = await productService.getAll(params);
+---
+
+<section style={`background-color: ${Colors.white};`} class="py-12 pb-20">
+  <h2 class="text-xl font-bold mb-6 text-center">Nuevos Productos</h2>
+  <div class="max-w-6xl mx-auto px-4 pt-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">
+      {products.slice(0, 8).map((product) => (
+        <ProductCard product={product} />
+      ))}
+    </div>
+  </div>
+</section>
