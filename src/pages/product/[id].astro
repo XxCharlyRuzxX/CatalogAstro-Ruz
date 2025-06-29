@@ -1,5 +1,5 @@
 ---
-import Footer from '@/components/Footer.astro';
+import AddToCartButton from '@/components/AddToCardButton';
 import Layout from '@layouts/Layout.astro';
 import type { Product } from "@lib/interfaces";
 import { productService, type GetProductsParams, } from "@lib/service/productService";
@@ -37,11 +37,7 @@ export const prerender = true;
             width={300}
             height={300}
           />
-          <button
-            class="text-white bg-(--primary-green) w-full max-w-sm px-4 py-2 hover:bg-lime-800 transition-colors duration-300"
-          >
-            Añadir al carrito
-          </button>
+          <AddToCartButton product={product} client:load/>
         </div>
         <div class="flex flex-col gap-6">
           <div>

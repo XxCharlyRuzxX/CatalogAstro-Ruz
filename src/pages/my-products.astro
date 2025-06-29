@@ -1,0 +1,17 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Footer from "@/components/Footer.astro";
+import MyProductsComponent from "@/components/my-products/MyProductsComponent";
+export const prerender = true;
+
+---
+
+<Layout>
+<div class="mx-20 mt-5 mb-5">
+  <h1 class="text-3xl font-bold pt-8">Mis Productos</h1>
+  <MyProductsComponent client:load/>
+</div>
+<div class="mt-10">
+  <Footer/>
+</div>
+</Layout>
