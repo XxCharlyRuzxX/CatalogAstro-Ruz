@@ -1,11 +1,9 @@
 import type { Product } from "@/lib/interfaces";
-import { useState } from "react";
+import { toast } from "react-toastify";
 
 type Props = { readonly product: Product };
 
 export default function AddToCartButton({ product }: Props) {
-  const [added, setAdded] = useState(false);
-
   const handleAddToCart = () => {
     const stored = localStorage.getItem("productsSelected");
     const current: Product[] = stored ? JSON.parse(stored) : [];
@@ -13,8 +11,10 @@ export default function AddToCartButton({ product }: Props) {
     if (!current.find((p) => p.idProduct === product.idProduct)) {
       current.push(product);
       localStorage.setItem("productsSelected", JSON.stringify(current));
-      setAdded(true);
-      setTimeout(() => setAdded(false), 2000);
+
+      toast.success(`"${product.nameProduct}" añadido al carrito`);
+    } else {
+      toast.info(`"${product.nameProduct}" ya está en el carrito`);
     }
   };
 
@@ -22,9 +22,8 @@ export default function AddToCartButton({ product }: Props) {
     <button
       onClick={handleAddToCart}
       className="text-white bg-(--primary-green) w-full max-w-sm px-4 py-2 hover:bg-lime-800 transition-colors duration-300"
-
     >
-      {added ? "¡Agregado!" : "Añadir al carrito"}
+      Añadir al carrito
     </button>
   );
 }

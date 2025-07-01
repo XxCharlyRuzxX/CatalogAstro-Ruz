@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Product } from "@/lib/interfaces";
 import { getSelectedProducts, removeProduct } from "@/utils/selectedProducts";
 
 const ITEMS_PER_PAGE = 5;
 
-export default function MyProductsList() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
+interface MyProductsListProps {
+  readonly products: Product[];
+  readonly setProducts: (products: Product[]) => void;
+}
 
-  useEffect(() => {
-    const selected = getSelectedProducts();
-    setProducts(selected);
-  }, []);
+export default function MyProductsList({ products , setProducts}: MyProductsListProps) {
+  const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;

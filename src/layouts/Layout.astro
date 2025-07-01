@@ -2,6 +2,7 @@
 import HeaderPage from "@components/HeaderPage.astro";
 import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
+import ToastProvider from "@/components/ToastProvider";
 ---
 <!doctype html>
 <html lang="en">
@@ -18,6 +19,7 @@ import "../styles/global.css";
 	</head>
 	<body>
 		<HeaderPage />
+    <ToastProvider client:load/>
     <main class="pt-[12vh] font-lora">
       <slot />
     </main>
