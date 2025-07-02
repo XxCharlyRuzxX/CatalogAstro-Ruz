@@ -12,9 +12,9 @@ const products: Product[] = await productService.getAll(params);
 ---
 
 <section style={`background-color: ${Colors.primaryBlush};`} class="py-12 pb-20">
-  <h2 class="text-2xl font-bold mb-6 text-center">Productos Populares</h2>
+  <h2 class="text-xl md:text-2xl font-bold mb-6 text-center">Productos Populares</h2>
   <div class="max-w-6xl mx-auto px-4 pt-6">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">
+    <div class="grid grid-cols-2 mx-4 md:mx-8 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 justify-items-center">
       {products.slice(0, 8).map((product) => (
         <ProductCard product={product} />
       ))}

@@ -67,22 +67,28 @@ export default function MyProductsList({
               <img
                 src={product.imgProduct}
                 alt={product.nameProduct}
-                className="w-20 h-auto object-cover"
+                className="w-[60px] sm:w-[70px] md:w-[80px] object-cover"
               />
               <div className="flex-1">
-                <h3 className="text-lg font-semibold">{product.nameProduct}</h3>
-                <p className="text-sm text-gray-700">{product.description}</p>
+                <h3 className="text-sm sm:text-base md:text-lg font-semibold">
+                  {product.nameProduct}
+                </h3>
+                <p className="text-[12px] sm:text-sm md:text-base text-gray-700">
+                  {product.description}
+                </p>
+                <p className="text-[12px] sm:text-sm md:text-base font-bold whitespace-nowrap">
+                  ${product.priceProduct.toFixed(2)}
+                </p>
               </div>
-              <p className="font-bold whitespace-nowrap">
-                ${product.priceProduct.toFixed(2)}
-              </p>
-              <button onClick={() => handleRemoveButton(product.idProduct)}>
-                <img
-                  src="/icons/trash.svg"
-                  alt="Eliminar"
-                  className="w-6 h-6 cursor-pointer hover:opacity-80 transition-opacity duration-200"
-                />
-              </button>
+              <div className="flex flex-col justify-between items-end self-center text-right gap-2">
+                <button onClick={() => handleRemoveButton(product.idProduct)}>
+                  <img
+                    src="/icons/trash.svg"
+                    alt="Eliminar"
+                    className="w-6 h-6 cursor-pointer hover:opacity-80 transition-opacity duration-200"
+                  />
+                </button>
+              </div>
             </li>
           ))}
         </ul>
@@ -90,13 +96,13 @@ export default function MyProductsList({
         <p className="text-gray-500">No tienes productos en el carrito.</p>
       )}
       {products.length > 0 && (
-        <div className="flex justify-between items-center mt-6 flex-wrap gap-4">
+        <div className="flex justify-center md:justify-between items-center mt-6 flex-wrap gap-4">
           {totalPages > 1 && (
             <div className="flex gap-2 flex-wrap">
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="px-3 py-1 rounded border disabled:opacity-50"
+                className="px-2 py-1 text-xs sm:text-sm lg:px-3 lg:py-1 md:text-base rounded border disabled:opacity-50"
               >
                 ←
               </button>
@@ -105,7 +111,7 @@ export default function MyProductsList({
                 <button
                   key={index}
                   onClick={() => setCurrentPage(index + 1)}
-                  className={`px-3 py-1 rounded border ${
+                  className={`px-2 py-1 text-xs sm:text-sm lg:px-3 lg:py-1 lg:text-base rounded border ${
                     currentPage === index + 1
                       ? "bg-gray-300"
                       : "hover:bg-gray-100"
@@ -120,21 +126,23 @@ export default function MyProductsList({
                   setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                 }
                 disabled={currentPage === totalPages}
-                className="px-3 py-1 rounded border disabled:opacity-50"
+                className="px-2 py-1 text-xs sm:text-sm lg:px-3 lg:py-1 lg:text-base rounded border disabled:opacity-50"
               >
                 →
               </button>
             </div>
           )}
           <div className="flex justify-end">
-            <div className="flex gap-5 font-semibold text-xl justify-end">
+            <div className="lg:flex gap-2 lg:gap-5 font-semibold justify-end text-sm sm:text-base md:text-lg">
               <p>
                 Total de productos:{" "}
-                <span className="font-normal">{products.length}</span>
+                <span className="text-sm sm:text-base md:text-lg font-normal">
+                  {products.length}
+                </span>
               </p>
               <p>
                 Total a pagar:{" "}
-                <span className="text-(--primary-green)">
+                <span className="text-(--primary-green) text-sm sm:text-base md:text-lg">
                   ${totalPrice.toFixed(2)}
                 </span>
               </p>

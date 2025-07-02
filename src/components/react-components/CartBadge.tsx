@@ -21,7 +21,7 @@ export default function CartBadge() {
   if (count === 0) return null;
 
   return (
-    <span style={{backgroundColor: "rgba(220,38,38,0.9)"}} className="absolute -top-[0.1rem] -right-[.6rem] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center shadow-md">
+    <span style={{backgroundColor: "rgba(220,38,38,0.9)"}} className="absolute -top-[0.1rem] -right-[.6rem] text-white text-xs w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center shadow-md">
       {count}
     </span>
   );

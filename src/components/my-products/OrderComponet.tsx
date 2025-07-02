@@ -16,10 +16,10 @@ export default function OrderComponent({productsNumber} : OrderComponentProps) {
     setOpenModal(true);
   }
   return(
-    <>
+    <div className="flex flex-col items-center justify-center gap-4 w-full ">
     <button
           onClick={() => {handleButtonClick()}}
-          className="text-white bg-(--primary-green) px-6 py-3 rounded hover:bg-lime-800 transition-colors duration-300 min-w-2xs flex gap-2 justify-center cursor-pointer "
+          className="text-white bg-(--primary-green) px-6 py-3 rounded hover:bg-lime-800 transition-colors duration-300 min-w-2xs flex gap-2 justify-center cursor-pointer w-full lg:w-auto"
           >
           <p>Pedir en Tienda</p>
           <img
@@ -32,6 +32,6 @@ export default function OrderComponent({productsNumber} : OrderComponentProps) {
     isOpen={openModal}
     CloseModal={() => setOpenModal(false)}
     />
-  </>
+  </div>
   )
 }

@@ -14,11 +14,11 @@ export default function MyProductsComponent() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mt-6">
-      <div className="md:col-span-3">
+      <div className="col-span-5 lg:col-span-3">
         <MyProductsList products={products} setProducts={setProducts} />
       </div>
 
-      <div className="flex flex-col items-center justify-start gap-6 md:col-span-2">
+      <div className="flex flex-col items-center justify-center gap-6 col-span-5 lg:col-span-2">
         <OrderComponent productsNumber={products.length}/>
         <img
           src="/icons/supermarket.svg"
