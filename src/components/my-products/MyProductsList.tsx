@@ -133,7 +133,7 @@ export default function MyProductsList({
             </div>
           )}
           <div className="flex justify-end">
-            <div className="lg:flex gap-2 lg:gap-5 font-semibold justify-end text-sm sm:text-base md:text-lg">
+            <div className="xl:flex gap-2 lg:gap-5 font-semibold justify-end text-sm sm:text-base xl:text-lg">
               <p>
                 Total de productos:{" "}
                 <span className="text-sm sm:text-base md:text-lg font-normal">

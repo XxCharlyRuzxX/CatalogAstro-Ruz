@@ -25,9 +25,9 @@ export default function ProductsCatalogComponent({
 
   return (
     <div className="md:col-span-2">
-      <h3 className="text-xl mb-4">Catálogo de Productos</h3>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <h3 className="text-xl mb-10">Catálogo de Productos</h3>
+      <div className="flex justify-center">
+      <div className="grid grid-cols-2 xl:grid-cols-3 gap-10">
         {paginatedProducts.length > 0 ? (
           paginatedProducts.map((product) => (
             <ProductCardReact key={product.idProduct} product={product} />
@@ -36,6 +36,7 @@ export default function ProductsCatalogComponent({
           <p>Ningún producto coincide con la búsqueda.</p>
         )}
       </div>
+        </div>
       {totalPages > 1 && (
         <div className="flex justify-items-start items-center gap-4 mt-8">
           <button

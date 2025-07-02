@@ -45,13 +45,12 @@ export default function CatalogComponent() {
   };
 
   return (
-    <div className="w-full mx-auto">
-      <div className="bg-(--primary-blush) px-6 py-6">
-        <div className="flex w-full mx-auto justify-center">
+    <div className="w-full">
+      <div className="bg-(--primary-blush) md:px-6 py-6">
+        <div className="flex w-full justify-center">
           <SearchCatalog onChangeParams={handleSearchChange} />
         </div>
       </div>
-
       <div className="bg-white px-6 py-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <SelectCategories

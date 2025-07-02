@@ -13,12 +13,12 @@ export default function SearchCatalog({ onChangeParams }: SearchCatalogProps) {
   };
 
   return (
-    <div className="relative">
+    <div className="flex justify-center w-full px-4">
       <input
         type="text"
         onChange={handleChange}
         placeholder="Buscar productos..."
-        className="p-4 mb-4 w-7xl bg-white h-12 rounded-3xl"
+        className="p-4 mb-4 w-full max-w-7xl bg-white h-12 rounded-3xl"
       />
     </div>
   )

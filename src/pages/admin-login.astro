@@ -1,0 +1,20 @@
+---
+import Layout from "@/layouts/Layout.astro"
+const url = new URL(Astro.url);
+const showError = url.searchParams.get("error") === "1";
+---
+<Layout>
+  <form action="/api/admin/login" method="POST" class="flex flex-col gap-4 max-w-sm mx-auto mt-10">
+    <input
+      type="password"
+      name="password"
+      placeholder="Contraseña de administrador"
+      class="border p-2 rounded"
+    />
+    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">
+      Entrar
+    </button>
+    {showError && <p class="text-red-600 mt-2">Contraseña incorrecta</p>}
+  </form>
+</Layout>
+
