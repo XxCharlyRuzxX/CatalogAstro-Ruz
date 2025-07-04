@@ -17,19 +17,23 @@ export default function SelectCategories({
   return (
     <div className="p-4">
       <div className="bg-(--primary-blush) rounded">
-      <button
+        <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`w-full text-left py-3 px-3 text-black flex justify-between items-center bg-(--primary-blush) ${
+          className={`w-full text-left py-1.5 px-2 md:py-2.5 md:px-2.5 text-black flex justify-between items-center bg-(--primary-blush) ${
             isOpen ? "bg-(--secondary-blush)" : "bg-(--primary-blush)"
           }`}
         >
-          <p>Seleccionar por Categoría</p>
+          <p className="my-2 text-[12px] md:text-[13px] lg:text-[14px]">
+            Seleccionar por Categoría
+          </p>
           <span className="text-xl">
-          <img
-          src={"/icons/expand.svg"}
-          alt={"expand-icon"}
-          className={`w-5 h-5 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-        />
+            <img
+              src={"/icons/expand.svg"}
+              alt={"expand-icon"}
+              className={`w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 ${
+                isOpen ? "rotate-180" : ""
+              }`}
+            />
           </span>
         </button>
 
@@ -39,13 +43,15 @@ export default function SelectCategories({
               <button
                 type="button"
                 onClick={() => handleCategoryChange("all")}
-                className={`w-full text-left py-3 px-3  ${
+                className={`w-full text-left py-1.5 px-2 md:py-2.5 md:px-2.5  ${
                   selectedCategory === "all"
                     ? "bg-(--secondary-blush)"
                     : "hover:bg-gray-300 cursor-pointer"
                 }`}
               >
-                Todas las Categorías
+                <p className="my-2 text-[12px] md:text-[13px] lg:text-[14px]">
+                  Todas las Categorías
+                </p>
               </button>
             </li>
             {categories.map((category) => (
@@ -53,13 +59,15 @@ export default function SelectCategories({
                 <button
                   type="button"
                   onClick={() => handleCategoryChange(category.id)}
-                  className={`w-full text-left py-3 px-3 ${
+                  className={`w-full text-left py-1.5 px-2 md:py-2.5 md:px-2.5 ${
                     selectedCategory === category.id
                       ? "bg-(--secondary-blush)"
                       : "hover:bg-gray-300 cursor-pointer"
                   }`}
                 >
-                  {`${category.name} (${category.productsCategory?.length ?? 0})`}
+                  <p className="my-2 text-[12px] md:text-[13px] lg:text-[14px]">{`${
+                    category.name
+                  } (${category.productsCategory?.length ?? 0})`}</p>
                 </button>
               </li>
             ))}

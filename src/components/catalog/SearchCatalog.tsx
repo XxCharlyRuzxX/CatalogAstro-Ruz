@@ -1,11 +1,10 @@
 import type { GetProductsParams } from "@/lib/service/productService";
 
-interface SearchCatalogProps{
+interface SearchCatalogProps {
   readonly onChangeParams: (params: GetProductsParams) => void;
 }
 
 export default function SearchCatalog({ onChangeParams }: SearchCatalogProps) {
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChangeParams({
       searchTerm: event.target.value,
@@ -14,12 +13,20 @@ export default function SearchCatalog({ onChangeParams }: SearchCatalogProps) {
 
   return (
     <div className="flex justify-center w-full px-4">
-      <input
-        type="text"
-        onChange={handleChange}
-        placeholder="Buscar productos..."
-        className="p-4 mb-4 w-full max-w-7xl bg-white h-12 rounded-3xl"
-      />
+      <div className="relative w-full max-w-7xl">
+        <input
+          type="text"
+          onChange={handleChange}
+          placeholder="Buscar productos..."
+          className="w-full h-12 pl-4 pr-12 rounded-3xl bg-white text-[12px] md:text-[14px] lg:text-[16px] mb-4"
+        />
+        <img
+          src="/icons/search.svg"
+          alt="Buscar"
+          className="absolute right-4 top-6 transform -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-amber-100"
+        />
+      </div>
     </div>
-  )
+  );
 }
+

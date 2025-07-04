@@ -21,8 +21,8 @@ export default function AddToCartButton({ product }: Props) {
   return (
     <button
       onClick={handleAddToCart}
-      className="text-white bg-(--primary-green) w-full max-w-sm px-4 py-2 hover:bg-lime-800 transition-colors duration-300"
-    >
+      className="text-white bg-(--primary-green) w-full px-4 py-2 hover:bg-lime-800 transition-colors duration-300"
+      >
       Añadir al carrito
     </button>
   );

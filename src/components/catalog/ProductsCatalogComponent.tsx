@@ -25,36 +25,43 @@ export default function ProductsCatalogComponent({
 
   return (
     <div className="md:col-span-2">
-      <h3 className="text-xl mb-10">Catálogo de Productos</h3>
       <div className="flex justify-center">
-      <div className="grid grid-cols-2 xl:grid-cols-3 gap-10">
-        {paginatedProducts.length > 0 ? (
-          paginatedProducts.map((product) => (
-            <ProductCardReact key={product.idProduct} product={product} />
-          ))
-        ) : (
-          <p>Ningún producto coincide con la búsqueda.</p>
-        )}
-      </div>
+        <div className="grid grid-cols-2 xl:grid-cols-3 gap-10">
+          {paginatedProducts.length > 0 ? (
+            paginatedProducts.map((product) => (
+              <ProductCardReact key={product.idProduct} product={product} />
+            ))
+          ) : (
+            <p className="text-[0.625rem] sm:text-[0.75rem] md:text-[0.875rem]">
+              Ningún producto coincide con la búsqueda.
+            </p>
+          )}
         </div>
+      </div>
       {totalPages > 1 && (
-        <div className="flex justify-items-start items-center gap-4 mt-8">
+        <div className="flex justify-center xl:justify-start xl:ml-10 items-center gap-4 mt-8">
           <button
             onClick={handlePrev}
             disabled={currentPage === 1}
             className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
           >
-            Anterior
+            <p className="text-[0.625rem] sm:text-[0.75rem] md:text-[0.875rem]">
+              Anterior
+            </p>
           </button>
           <span className="text-gray-700">
-            Página {currentPage} de {totalPages}
+            <p className="text-[0.625rem] sm:text-[0.75rem] text-black md:text-[0.875rem]">
+              Página {currentPage} de {totalPages}
+            </p>
           </span>
           <button
             onClick={handleNext}
             disabled={currentPage === totalPages}
             className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
           >
-            Siguiente
+            <p className="text-[0.625rem] sm:text-[0.75rem] text-black md:text-[0.875rem]">
+              Siguiente
+            </p>
           </button>
         </div>
       )}
