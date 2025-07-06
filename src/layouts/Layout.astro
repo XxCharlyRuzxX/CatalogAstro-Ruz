@@ -3,6 +3,8 @@ import HeaderPage from "@components/HeaderPage.astro";
 import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
 import ToastProvider from "@/components/react-components/ToastProvider";
+import AdminPanelButton from "@/components/AdminPanelButton";
+import Footer from "@/components/Footer.astro";
 ---
 <!doctype html>
 <html lang="en">
@@ -23,6 +25,8 @@ import ToastProvider from "@/components/react-components/ToastProvider";
     <main class="pt-[8vh] md:pt-[12vh] font-lora">
       <slot />
     </main>
+    <Footer/>
+    <AdminPanelButton client:load />
 	</body>
 </html>
 

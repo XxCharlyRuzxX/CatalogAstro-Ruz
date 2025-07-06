@@ -11,6 +11,9 @@ export default defineConfig({
   }),
   integrations: [react()],
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    ssr: {
+      noExternal: ["@mui/material", "@mui/system", "@mui/icons-material", "@mui/x-data-grid"],
+    },
   }
 });

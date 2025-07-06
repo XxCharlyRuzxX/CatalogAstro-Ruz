@@ -1,0 +1,14 @@
+---
+import ProductsAdminTable from "@/components/admin/ProductsAdminTable";
+import Layout from "@/layouts/Layout.astro";
+export const prerender = true;
+---
+
+<Layout>
+  <div class="mx-10 lg:mx-20 mt-5 mb-30">
+    <h1 class="text-xl md:text-2xl font-bold mb-4 pt-8 text-center">
+      Administrar Productos
+    </h1>
+    <ProductsAdminTable client:load/>
+  </div>
+</Layout>
