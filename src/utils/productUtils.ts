@@ -18,9 +18,11 @@ export function buildProductData(data: RawProductData) {
     priceProduct: data.priceProduct,
     description: data.description,
     brand: data.brand,
-    categoriesProduct: {
-      connect: data.categoriesProduct.map((cat) => ({ id: cat.id })),
-    },
+    ...(data.categoriesProduct?.length && {
+      categoriesProduct: {
+        connect: data.categoriesProduct.map((cat) => ({ id: cat.id })),
+      },
+    }),
   };
 }
 

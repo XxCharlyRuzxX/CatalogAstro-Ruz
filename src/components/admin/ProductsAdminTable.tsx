@@ -1,10 +1,12 @@
-import type { Product } from "@/lib/interfaces";
+import type { Product, ProductDTO } from "@/lib/interfaces";
 import { productService } from "@/lib/service/productService";
 import { IconButton } from "@mui/material";
 import { DataGrid, type GridColDef} from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { esES } from "@mui/x-data-grid/locales";
-import { Colors } from "@/utils/colors";
+import AddProductsButton from "./AddProductsButton";
+import { toast } from "react-toastify";
+
 
 
 export default function ProductsAdminTable() {
@@ -18,6 +20,36 @@ export default function ProductsAdminTable() {
   useEffect(() => {
     fetchAllProducts();
   }, []);
+
+  const onSubmitAddProducts = async (product: ProductDTO) => {
+    try {
+      await productService.postProducts([product]);
+      await fetchAllProducts();
+    } catch (error) {
+      toast.error("Error al añadir el producto: " + (error as Error).message);
+    }
+    toast.success("Producto añadido correctamente");
+  };
+
+
+  const renderActionsCell = useCallback(() => (
+    <div className="flex items-center justify-center w-full h-full gap-2">
+      <IconButton aria-label="editar" size="small">
+        <img
+          src="/icons/edit.svg"
+          alt="Editar"
+          className="w-4 h-4 sm:w-5 sm:h-5"
+        />
+      </IconButton>
+      <IconButton aria-label="eliminar" size="small">
+        <img
+          src="/icons/delete.svg"
+          alt="Eliminar"
+          className="w-4 h-4 sm:w-5 sm:h-5"
+        />
+      </IconButton>
+    </div>
+  ), []);
 
   const columns: GridColDef[] = [
     {
@@ -50,53 +82,21 @@ export default function ProductsAdminTable() {
       headerClassName: 'super-app-theme--header',
       flex: 1,
       sortable: false,
-      renderCell: () => (
-        <div className="flex items-center justify-center w-full h-full gap-2">
-          <IconButton aria-label="editar" size="small">
-            <img
-              src="/icons/edit.svg"
-              alt="Editar"
-              className="w-4 h-4 sm:w-5 sm:h-5"
-            />
-          </IconButton>
-          <IconButton aria-label="eliminar" size="small">
-            <img
-              src="/icons/delete.svg"
-              alt="Eliminar"
-              className="w-4 h-4 sm:w-5 sm:h-5"
-            />
-          </IconButton>
-        </div>
-      ),
+      renderCell: renderActionsCell,
     },
   ];
 
   return (
     <>
-  <div className="fixed bottom-10 left-10 z-50">
-    <button
-      className="group flex items-center rounded-xl bg-blue-500 overflow-hidden transition-all duration-300 ease-in-out w-10 h-10 sm:w-12 sm:h-12 hover:w-42 sm:hover:w-48 px-2 sm:px-3 shadow-lg"
-    >
-      <img
-        src="/icons/add.svg"
-        alt="Actualizar"
-        className="w-6 h-6 transition-all duration-300 ease-in-out"
-      />
-      <span
-        className="ml-2 text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"
-      >
-        <p className="text-[0.75rem] md:text-[0.875rem]">Añadir producto</p>
-      </span>
-    </button>
-  </div>
+    <AddProductsButton onSubmit={onSubmitAddProducts}/>
     <div style={{ height: 650, width: "100%" }} className="md:p-[2rem]">
       <DataGrid
       sx={{
         '& .super-app-theme--header': {
           backgroundColor: "#333333",
-          color: Colors.white,
+          color: "#ffffff",
           '& .MuiDataGrid-sortIcon, & .MuiDataGrid-iconSeparator, & .MuiSvgIcon-root': {
-            color: Colors.white,
+            color: "#ffffff",
           },
         },
         "& .MuiDataGrid-row": {

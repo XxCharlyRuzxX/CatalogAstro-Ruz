@@ -26,16 +26,18 @@ export const prerender = true;
     <div class="flex items-center justify-center p-10 px-6 sm:px-10 md:px-14 md:p-25">
       <div class="flex flex-col md:flex-row w-full md:max-w-4xl max-w-xl gap-6 md:gap-10 items-center md:items-start text-center md:text-left">
 
-        <div class="flex flex-col items-center justify-center md:gap-y-4 md:basis-1/2 order-2 md:order-1">
-          <Image
-            src={product?.imgProduct}
-            alt={product?.nameProduct}
-            transition:name={`img-product-${product.idProduct}`}
-            class="w-full h-auto"
-            loading="lazy"
-            width={400}
-            height={400}
-          />
+        <div class="flex flex-col items-center justify-center md:gap-y-4 md:basis-1/2 order-2 md:order-1  mx-20 md:mx-0">
+          <div class="w-full aspect-square">
+            <Image
+              src={product?.imgProduct}
+              alt={product?.nameProduct}
+              transition:name={`img-product-${product.idProduct}`}
+              class="w-full h-full object-cover rounded"
+              loading="lazy"
+              width={400}
+              height={400}
+            />
+          </div>
           <AddToCartButton product={product} client:load />
         </div>
 

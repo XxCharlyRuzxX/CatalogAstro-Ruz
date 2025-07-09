@@ -1,4 +1,4 @@
-import type { Product } from "../interfaces";
+import type { Product, ProductDTO } from "../interfaces";
 
 const BASE_URL = "/api/products";
 
@@ -40,7 +40,7 @@ export const productService = {
     return res.json() as Promise<Product>;
   },
 
-  async postProducts(products: Product[]) {
+  async postProducts(products: ProductDTO[]) {
     const res = await fetch(BASE_URL, {
       method: "POST",
       headers: {
@@ -53,7 +53,7 @@ export const productService = {
     return res.json() as Promise<Product[]>;
   },
 
-  async putProduct(product : Product , id : string) {
+  async putProduct(product : ProductDTO , id : string) {
     const url = buildQueryURL(BASE_URL, { id });
     const res = await fetch(url, {
       method: "PUT",

@@ -67,7 +67,7 @@ export default function MyProductsList({
               <img
                 src={product.imgProduct}
                 alt={product.nameProduct}
-                className="w-[60px] sm:w-[70px] md:w-[80px] object-cover"
+                className="w-[60px] sm:w-[70px] md:w-[80px] object-cover aspect-square"
               />
               <div className="flex-1">
                 <h3 className="text-sm sm:text-base md:text-lg font-semibold">
