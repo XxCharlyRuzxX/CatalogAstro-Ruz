@@ -18,7 +18,7 @@ export default function ConfirmationModal({
 }: ConfirmationModalProps) {
   return createPortal(
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-100">
-      <div className="bg-white p-6 rounded-lg w-2xl relative shadow-lg mb-2">
+      <div className="bg-white p-6 rounded-lg w-2xl relative shadow-lg mb-2 m-8">
         {children}
         <div className="flex justify-center items-center gap-4 mt-4">
           <button

@@ -1,45 +1,76 @@
 import { uploadImageToCloudinary } from "@/lib/service/cloudinaryService";
 import useField from "../hooks/useField";
 import useDropzoneUpload from "../hooks/Dropzone";
-import type { ProductDTO } from "@/lib/interfaces";
+import type { Product, ProductDTO } from "@/lib/interfaces";
+import { productService, type GetProductsParams } from "@/lib/service/productService";
+import { useEffect, useState } from "react";
 
-interface AddProductsModalProps {
+interface EditProductsModalProps {
+  readonly productId: string;
   readonly isOpen: boolean;
   readonly CloseModal: () => void;
   readonly onSubmit: (product: ProductDTO) => Promise<void>;
 }
 
-export default function AddProductsModal({
+export default function EditProductsModal({
+  productId,
   isOpen,
   CloseModal,
   onSubmit,
-}: AddProductsModalProps) {
+}: EditProductsModalProps) {
+  const [product, setProduct] = useState<Product>();
+
+  const fetchProduct = async () => {
+    try {
+      const params: GetProductsParams = { id: productId };
+      const fetchedProduct = await productService.getById(params);
+      setProduct(fetchedProduct);
+    } catch (error) {
+      console.error("Error fetching product:", error);
+    }
+  };
+
+  const updateProductFields = () => {
+    if (product) {
+      nameProduct.setValue(product.nameProduct);
+      brand.setValue(product.brand);
+      priceProduct.setValue(product.priceProduct.toString());
+      description.setValue(product.description);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen && productId) {
+      fetchProduct();
+    }
+  }, [isOpen, productId]);
+
+  useEffect(() => {
+    updateProductFields();
+  }, [product]);
+
   const nameProduct = useField("", {
     type: "text",
     placeholder: "Nombre del producto",
     required: true,
-    className:
-      "border p-2 rounded w-full placeholder:text-[12px] md:placeholder:text-[16px]",
+    className: "border p-2 rounded w-full placeholder:text-[12px] md:placeholder:text-[16px]",
   });
 
   const brand = useField("", {
     type: "text",
     placeholder: "Marca",
     required: true,
-    className:
-      "border p-2 rounded w-full placeholder:text-[12px] md:placeholder:text-[16px]",
+    className: "border p-2 rounded w-full placeholder:text-[12px] md:placeholder:text-[16px]",
   });
 
   const priceProduct = useField("", {
     type: "number",
     placeholder: "Precio",
     required: true,
-    className:
-      "border p-2 rounded w-full placeholder:text-[12px] md:placeholder:text-[16px]",
+    className: "border p-2 rounded w-full placeholder:text-[12px] md:placeholder:text-[16px]",
   });
 
-  const { file, getRootProps, getInputProps, isDragActive, clearFile } =
-    useDropzoneUpload();
+  const { file, getRootProps, getInputProps, isDragActive, clearFile } = useDropzoneUpload();
 
   const description = useField("", {
     placeholder: "Descripción",
@@ -50,11 +81,21 @@ export default function AddProductsModal({
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    let imageUrl = "";
+
+    let imageUrl = product?.imgProduct ?? "";
+
     if (file) {
-      imageUrl = await uploadImageToCloudinary(file);
+      const selectedFileName = file.name;
+      const currentImageName = product?.imgProduct?.split("/").pop();
+
+      const isSameImage = currentImageName?.includes(selectedFileName);
+
+      if (!isSameImage) {
+        imageUrl = await uploadImageToCloudinary(file);
+      }
     }
-    onSubmit({
+
+    await onSubmit({
       nameProduct: nameProduct.value,
       brand: brand.value,
       priceProduct: parseFloat(priceProduct.value),
@@ -75,13 +116,23 @@ export default function AddProductsModal({
     if (file) {
       return (
         <p className="text-(--primary-green) text-[12px] md:text-[16px]">
-          Imagen cargada corrctamente: <br />
+          Imagen cargada correctamente: <br />
           {file.name}
         </p>
       );
     }
-    if (isDragActive) {
+    if (isDragActive && product?.imgProduct) {
       return <p className="text-[12px] md:text-[16px] text-gray-500">Suelta la imagen aquí...</p>;
+    }
+    if (product?.imgProduct) {
+      return (
+        <>
+          <p className="text-(--primary-green) text-[12px] md:text-[16px]">Imagen Actual Registrada</p>
+          <p className="text-gray-500 text-[12px] md:text-[16px]">
+            Arrastra y suelta una imagen, o haz clic para cambiar la imagen actual
+          </p>
+        </>
+      );
     }
     return (
       <p className="text-gray-500 text-[12px] md:text-[16px]">
@@ -94,7 +145,7 @@ export default function AddProductsModal({
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg w-full  max-w-xs md:max-w-xl relative shadow-lg">
+      <div className="bg-white p-6 rounded-lg w-full max-w-xs md:max-w-xl relative shadow-lg">
         <button
           onClick={CloseModal}
           className="absolute top-3 right-3 hover:scale-110 transition-transform duration-300"
@@ -104,47 +155,34 @@ export default function AddProductsModal({
 
         <div className="p-4 text-black">
           <div className="flex justify-center gap-2 mb-2 md:mb-4 items-center">
-            <h2 className="text-[16px] md:text-xl font-semibold text-center">
-              Añadir nuevo producto
-            </h2>
+            <h2 className="text-[16px] md:text-xl font-semibold text-center">Editar producto</h2>
             <img src="/icons/beauty.svg" alt="Producto" className="w-10 h-10" />
           </div>
 
           <form onSubmit={handleFormSubmit} className="flex flex-col">
-            <label
-              htmlFor="productName"
-              className="my-2 text-[12px] md:text-[16px]"
-            >
+            <label htmlFor="productName" className="my-2 text-[12px] md:text-[16px]">
               Nombre del producto:
             </label>
             <input id="productName" name="productName" type={nameProduct.type} {...nameProduct.bind} />
 
-            <label
-              htmlFor="productBrand"
-              className="my-2 text-[12px] md:text-[16px]"
-            >
+            <label htmlFor="productBrand" className="my-2 text-[12px] md:text-[16px]">
               Marca:
             </label>
             <input id="productBrand" name="productBrand" type={brand.type} {...brand.bind} />
 
-            <label
-              htmlFor="productPrice"
-              className="my-2 text-[12px] md:text-[16px]"
-            >
+            <label htmlFor="productPrice" className="my-2 text-[12px] md:text-[16px]">
               Precio del producto:
             </label>
             <input
-            id="productPrice"
-            name="productPrice"
+              id="productPrice"
+              name="productPrice"
               type={priceProduct.type}
               min="0"
               step="0.01"
               {...priceProduct.bind}
             />
-            <label
-              htmlFor="productImage"
-              className="my-2 text-[12px] md:text-[16px]"
-            >
+
+            <label htmlFor="productImage" className="my-2 text-[12px] md:text-[16px]">
               Imagen del producto:
             </label>
             <div
@@ -155,8 +193,7 @@ export default function AddProductsModal({
                   : "border-dashed border-gray-300 bg-gray-50 hover:border-gray-400"
               }`}
             >
-              <input {...getInputProps()} id="productImage" name="productImage" required />
-
+              <input {...getInputProps()} id="productImage" name="productImage" />
               <div className="flex flex-col items-center justify-center gap-1">
                 <img
                   src="/icons/upload.svg"
@@ -167,19 +204,21 @@ export default function AddProductsModal({
               </div>
             </div>
 
-            <label
-              htmlFor="productDescription"
-              className="my-2 text-[12px] md:text-[16px]"
-            >
+            <label htmlFor="productDescription" className="my-2 text-[12px] md:text-[16px]">
               Descripción del producto:
             </label>
-            <textarea id="productDescription" name="productDescription" {...description.bind} onChange={description.onChange} />
+            <textarea
+              id="productDescription"
+              name="productDescription"
+              {...description.bind}
+              onChange={description.onChange}
+            />
 
             <button
               type="submit"
-              className="bg-(--primary-green) hover:bg-lime-800  text-white py-2 rounded mt-3 text-[12px] md:text-[16px] transition-colors duration-300 "
+              className="bg-(--primary-green) hover:bg-lime-800 text-white py-2 rounded mt-3 text-[12px] md:text-[16px] transition-colors duration-300"
             >
-              Añadir Producto
+              Editar Producto
             </button>
           </form>
         </div>

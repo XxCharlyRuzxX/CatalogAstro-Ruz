@@ -26,6 +26,7 @@ export default function useField(initialValue = "", options: UseFieldOptions = {
     className: finalClassName,
     required,
     onChange,
+    setValue,
     reset,
     bind: {
       value,

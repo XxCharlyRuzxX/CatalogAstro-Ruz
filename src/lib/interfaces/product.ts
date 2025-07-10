@@ -11,6 +11,7 @@ export type Product = {
 }
 
 export type ProductDTO = {
+  idProduct?: string;
   nameProduct: string;
   imgProduct: string;
   priceProduct: number;

@@ -1,16 +1,21 @@
 import type { Product, ProductDTO } from "@/lib/interfaces";
 import { productService } from "@/lib/service/productService";
-import { IconButton } from "@mui/material";
-import { DataGrid, type GridColDef} from "@mui/x-data-grid";
-import { useCallback, useEffect, useState } from "react";
+import { DataGrid, type GridColDef } from "@mui/x-data-grid";
+import { useEffect, useState } from "react";
 import { esES } from "@mui/x-data-grid/locales";
 import AddProductsButton from "./AddProductsButton";
 import { toast } from "react-toastify";
-
-
+import ConfirmationModal from "../react-components/ConfirmationModal";
+import { ActionsCell } from "./ActionsCell";
+import EditProductsModal from "./EditProductsModal";
 
 export default function ProductsAdminTable() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
+  const [isOpenModalEdit, setIsOpenModalEdit] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(
+    null
+  );
 
   const fetchAllProducts = async () => {
     const products = await productService.getAll();
@@ -21,57 +26,78 @@ export default function ProductsAdminTable() {
     fetchAllProducts();
   }, []);
 
+  const onClickDeleteIcon = (productId: string) => {
+    setSelectedProductId(productId);
+    setIsOpenModalDelete(true);
+  };
+
+  const onClickEditIcon = (productId: string) => {
+    setSelectedProductId(productId);
+    setIsOpenModalEdit(true);
+  };
+
+  const onDeleteProduct = async (productId: string | null) => {
+    if (!productId) {
+      toast.error("ID de producto no válido");
+      return;
+    }
+    try {
+      await productService.deleteProduct(productId);
+      await fetchAllProducts();
+      toast.success("Producto eliminado correctamente");
+    } catch (error) {
+      toast.error("Error al eliminar el producto: " + (error as Error).message);
+    }
+  };
+
+  const onSubmitEditProduct = async (product: ProductDTO) => {
+    if (!selectedProductId) {
+      toast.error("ID de producto no válido");
+      return;
+    }
+    try {
+      await productService.putProduct(product, selectedProductId);
+      await fetchAllProducts();
+      toast.success("Producto actualizado correctamente");
+      setIsOpenModalEdit(false);
+    } catch (error) {
+      toast.error(
+        "Error al actualizar el producto: " + (error as Error).message
+      );
+    }
+  };
+
   const onSubmitAddProducts = async (product: ProductDTO) => {
     try {
       await productService.postProducts([product]);
       await fetchAllProducts();
+      toast.success("Producto añadido correctamente");
     } catch (error) {
       toast.error("Error al añadir el producto: " + (error as Error).message);
     }
-    toast.success("Producto añadido correctamente");
   };
-
-
-  const renderActionsCell = useCallback(() => (
-    <div className="flex items-center justify-center w-full h-full gap-2">
-      <IconButton aria-label="editar" size="small">
-        <img
-          src="/icons/edit.svg"
-          alt="Editar"
-          className="w-4 h-4 sm:w-5 sm:h-5"
-        />
-      </IconButton>
-      <IconButton aria-label="eliminar" size="small">
-        <img
-          src="/icons/delete.svg"
-          alt="Eliminar"
-          className="w-4 h-4 sm:w-5 sm:h-5"
-        />
-      </IconButton>
-    </div>
-  ), []);
 
   const columns: GridColDef[] = [
     {
       field: "nameProduct",
-      headerClassName: 'super-app-theme--header',
+      headerClassName: "super-app-theme--header",
       headerName: "Nombre del Producto",
       flex: 2,
     },
     {
       field: "brand",
-      headerClassName: 'super-app-theme--header',
+      headerClassName: "super-app-theme--header",
       headerName: "Marca",
       flex: 1,
     },
     {
       field: "priceProduct",
       headerName: "Precio",
-      headerClassName: 'super-app-theme--header',
+      headerClassName: "super-app-theme--header",
       flex: 1,
       valueFormatter: (value?: number) => {
         if (value == null) {
-          return '$0.00';
+          return "$0.00";
         }
         return `$${value.toFixed(2)}`;
       },
@@ -79,49 +105,83 @@ export default function ProductsAdminTable() {
     {
       field: "actions",
       headerName: "Acciones",
-      headerClassName: 'super-app-theme--header',
+      headerClassName: "super-app-theme--header",
       flex: 1,
       sortable: false,
-      renderCell: renderActionsCell,
+      renderCell: ({ row }) => (
+        <ActionsCell
+          productId={row.idProduct}
+          onDelete={onClickDeleteIcon}
+          onEdit={onClickEditIcon}
+        />
+      ),
     },
   ];
 
   return (
     <>
-    <AddProductsButton onSubmit={onSubmitAddProducts}/>
-    <div style={{ height: 650, width: "100%" }} className="md:p-[2rem]">
-      <DataGrid
-      sx={{
-        '& .super-app-theme--header': {
-          backgroundColor: "#333333",
-          color: "#ffffff",
-          '& .MuiDataGrid-sortIcon, & .MuiDataGrid-iconSeparator, & .MuiSvgIcon-root': {
-            color: "#ffffff",
-          },
-        },
-        "& .MuiDataGrid-row": {
-          "&:hover": {
-            backgroundColor: "#f0f0f0",
-          },
-        },
-        fontSize: {
-          xs: "0.75rem",
-          sm: "0.875rem",
-        },
-      }}
-      localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-      rows={products}
-      columns={columns}
-      getRowId={(row) => row.idProduct}
-      pageSizeOptions={[10, 20, 50]}
-      initialState={{
-        pagination: {
-          paginationModel: { pageSize: 10, page: 0 },
-        },
-      }}
-      disableRowSelectionOnClick
-      />
-    </div>
-      </>
+      <AddProductsButton onSubmit={onSubmitAddProducts} />
+      <div style={{ height: 650, width: "100%" }} className="md:p-[2rem]">
+        <DataGrid
+          sx={{
+            "& .super-app-theme--header": {
+              backgroundColor: "#333333",
+              color: "#ffffff",
+              "& .MuiDataGrid-sortIcon, & .MuiDataGrid-iconSeparator, & .MuiSvgIcon-root":
+                {
+                  color: "#ffffff",
+                },
+            },
+            "& .MuiDataGrid-row": {
+              "&:hover": {
+                backgroundColor: "#f0f0f0",
+              },
+            },
+            fontSize: {
+              xs: "0.75rem",
+              sm: "0.875rem",
+            },
+          }}
+          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+          rows={products}
+          columns={columns}
+          getRowId={(row) => row.idProduct}
+          pageSizeOptions={[10, 20, 50]}
+          initialState={{
+            pagination: {
+              paginationModel: { pageSize: 10, page: 0 },
+            },
+          }}
+          disableRowSelectionOnClick
+        />
+      </div>
+      {isOpenModalDelete && (
+        <ConfirmationModal
+          textButtonConfirm="Eliminar"
+          onConfirm={() => {
+            onDeleteProduct(selectedProductId);
+            setIsOpenModalDelete(false);
+          }}
+          onCancel={() => setIsOpenModalDelete(false)}
+        >
+          <div className="flex flex-col items-center justify-center px-6 py-2">
+            <h2 className="text-xl font-semibold mb-4 text-[16px] md:text-[20px]">
+              ¿Estás seguro de eliminar este producto?
+            </h2>
+            <p className="text-gray-600 mb-4">
+              Esta acción no se puede deshacer.
+            </p>
+          </div>
+        </ConfirmationModal>
+      )}
+      {isOpenModalEdit && selectedProductId && (
+        <EditProductsModal
+          productId={selectedProductId}
+          isOpen={isOpenModalEdit}
+          onSubmit={onSubmitEditProduct}
+          CloseModal={() => setIsOpenModalEdit(false)}
+        />
+      )}
+    </>
   );
 }
