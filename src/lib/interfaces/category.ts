@@ -5,3 +5,13 @@ export type Category = {
   name: string;
   productsCategory? : Product[];
 };
+
+export type ProductWithSelectionToCategory = {
+  product: Product;
+  selected: boolean;
+}
+
+export type CategoryDTO = {
+  name: string;
+  productsCategory?: Product[];
+};

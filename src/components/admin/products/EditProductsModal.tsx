@@ -1,9 +1,9 @@
 import { uploadImageToCloudinary } from "@/lib/service/cloudinaryService";
-import useField from "../hooks/useField";
-import useDropzoneUpload from "../hooks/Dropzone";
 import type { Product, ProductDTO } from "@/lib/interfaces";
 import { productService, type GetProductsParams } from "@/lib/service/productService";
 import { useEffect, useState } from "react";
+import useField from "@/components/hooks/useField";
+import useDropzoneUpload from "@/components/hooks/Dropzone";
 
 interface EditProductsModalProps {
   readonly productId: string;

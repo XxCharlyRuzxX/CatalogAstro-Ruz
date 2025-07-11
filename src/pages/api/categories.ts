@@ -90,3 +90,40 @@ export async function DELETE({ request }: { request: Request }) {
     return error({ error: `Error al eliminar la categoría: ${e}` }, "500");
   }
 }
+
+export async function PATCH({ request }: { request: Request }) {
+  try {
+    const body = await request.json();
+
+    const { categoryId, productIds } = body;
+
+    if (!categoryId || !Array.isArray(productIds)) {
+      return error(
+        { error: "categoryId y productIds son requeridos y válidos" },
+        "400"
+      );
+    }
+
+    const category = await prisma.category.findUnique({
+      where: { id: categoryId },
+    });
+
+    if (!category) {
+      return error({ error: "Categoría no encontrada" }, "404");
+    }
+    const updated = await prisma.category.update({
+      where: { id: categoryId },
+      data: {
+        productsCategory: {
+          set: productIds.map((idProduct: string) => ({ idProduct })),
+        },
+      },
+      include: { productsCategory: true },
+    });
+
+    return success(updated, 200);
+  } catch (e) {
+    const message = e instanceof Error ? e.message : String(e);
+    return error({ error: `Error al asignar productos: ${message}` }, "500");
+  }
+}

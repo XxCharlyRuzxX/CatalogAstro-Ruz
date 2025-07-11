@@ -1,0 +1,13 @@
+---
+import CategoriesSection from "@/components/admin/categories/CategoriesSection";
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout>
+  <div class="mx-10 lg:mx-20 mt-5 mb-30">
+    <h1 class="text-xl md:text-2xl font-bold mb-4 pt-8 text-center">
+      Administrar Categorias
+    </h1>
+    <CategoriesSection client:load/>
+  </div>
+</Layout>

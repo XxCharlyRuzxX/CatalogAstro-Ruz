@@ -1,7 +1,7 @@
 import { uploadImageToCloudinary } from "@/lib/service/cloudinaryService";
-import useField from "../hooks/useField";
-import useDropzoneUpload from "../hooks/Dropzone";
 import type { ProductDTO } from "@/lib/interfaces";
+import useDropzoneUpload from "@/components/hooks/Dropzone";
+import useField from "@/components/hooks/useField";
 
 interface AddProductsModalProps {
   readonly isOpen: boolean;
@@ -75,7 +75,7 @@ export default function AddProductsModal({
     if (file) {
       return (
         <p className="text-(--primary-green) text-[12px] md:text-[16px]">
-          Imagen cargada corrctamente: <br />
+          Imagen cargada corrctamente:
           {file.name}
         </p>
       );

@@ -4,20 +4,20 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 interface ActionsCellProps {
-  productId: string;
+  objectId: string;
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
 }
 
 export const ActionsCell: React.FC<ActionsCellProps> = React.memo(
-  ({ productId, onDelete, onEdit }) => {
+  ({ objectId, onDelete, onEdit }) => {
     return (
       <div className="flex items-center justify-center w-full h-full gap-2">
         <IconButton
           aria-label="editar"
           size="small"
           color="inherit"
-          onClick={() => onEdit(productId)}
+          onClick={() => onEdit(objectId)}
         >
           <EditIcon fontSize="small" />
         </IconButton>
@@ -25,7 +25,7 @@ export const ActionsCell: React.FC<ActionsCellProps> = React.memo(
           aria-label="eliminar"
           size="small"
           color="inherit"
-          onClick={() => onDelete(productId)}
+          onClick={() => onDelete(objectId)}
         >
           <DeleteIcon fontSize="small" />
         </IconButton>

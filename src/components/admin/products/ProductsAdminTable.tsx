@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { esES } from "@mui/x-data-grid/locales";
 import AddProductsButton from "./AddProductsButton";
 import { toast } from "react-toastify";
-import ConfirmationModal from "../react-components/ConfirmationModal";
-import { ActionsCell } from "./ActionsCell";
+import ConfirmationModal from "../../react-components/ConfirmationModal";
+import { ActionsCell } from "../ActionsCell";
 import EditProductsModal from "./EditProductsModal";
 
 export default function ProductsAdminTable() {
@@ -110,7 +110,7 @@ export default function ProductsAdminTable() {
       sortable: false,
       renderCell: ({ row }) => (
         <ActionsCell
-          productId={row.idProduct}
+          objectId={row.idProduct}
           onDelete={onClickDeleteIcon}
           onEdit={onClickEditIcon}
         />
@@ -119,9 +119,9 @@ export default function ProductsAdminTable() {
   ];
 
   return (
-    <>
+    <div key={Date.now()}>
       <AddProductsButton onSubmit={onSubmitAddProducts} />
-      <div style={{ height: 650, width: "100%" }} className="md:p-[2rem]">
+      <div style={{ height: 650, width: "100%" }} className="md:p-[2rem] ">
         <DataGrid
           sx={{
             "& .super-app-theme--header": {
@@ -182,6 +182,6 @@ export default function ProductsAdminTable() {
           CloseModal={() => setIsOpenModalEdit(false)}
         />
       )}
-    </>
+    </div>
   );
 }

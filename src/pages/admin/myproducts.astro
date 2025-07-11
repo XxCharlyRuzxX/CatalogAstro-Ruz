@@ -1,7 +1,7 @@
 ---
-import ProductsAdminTable from "@/components/admin/ProductsAdminTable";
+import ProductsAdminTable from "@/components/admin/products/ProductsAdminTable";
 import Layout from "@/layouts/Layout.astro";
-export const prerender = true;
+import AppWrapper from "@/components/AppWrapper";
 ---
 
 <Layout>
@@ -9,6 +9,8 @@ export const prerender = true;
     <h1 class="text-xl md:text-2xl font-bold mb-4 pt-8 text-center">
       Administrar Productos
     </h1>
-    <ProductsAdminTable client:load/>
+    <AppWrapper client:only="react">
+      <ProductsAdminTable client:load/>
+    </AppWrapper>
   </div>
 </Layout>

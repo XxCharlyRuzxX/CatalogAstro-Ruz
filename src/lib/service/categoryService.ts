@@ -1,4 +1,4 @@
-import type { Category } from "../interfaces";
+import type { Category, CategoryDTO } from "../interfaces";
 
 const BASE_URL = "/api/categories";
 
@@ -28,7 +28,14 @@ export const categoryService = {
     return res.json();
   },
 
-  async postCategory(category: Category): Promise<Category> {
+  async getById(id: string): Promise<Category | null> {
+    const url = buildQueryURL(BASE_URL, { id });
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Error al obtener la categoría");
+    return res.json();
+  },
+
+  async postCategory(category: CategoryDTO): Promise<Category> {
     const res = await fetch(BASE_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -46,6 +53,17 @@ export const categoryService = {
       body: JSON.stringify(category),
     });
     if (!res.ok) throw new Error("Error al actualizar la categoría");
+    return res.json();
+  },
+
+  async assignProductsToCategory(categoryId: string, productIds: string[]) {
+    const res = await fetch(BASE_URL, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ categoryId, productIds }),
+    });
+
+    if (!res.ok) throw new Error("Error al asignar productos a la categoría");
     return res.json();
   },
 
