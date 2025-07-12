@@ -3,19 +3,18 @@ import { productService } from "@/lib/service/productService";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { esES } from "@mui/x-data-grid/locales";
-import AddProductsButton from "./AddProductsButton";
 import { toast } from "react-toastify";
 import ConfirmationModal from "../../react-components/ConfirmationModal";
 import { ActionsCell } from "../ActionsCell";
-import EditProductsModal from "./EditProductsModal";
+import AddProductsButton from "../products/AddProductsButton";
+import EditProductsModal from "../products/EditProductsModal";
 
 export default function ProductsAdminTable() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
   const [isOpenModalEdit, setIsOpenModalEdit] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState<string | null>(
-    null
-  );
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+
 
   const fetchAllProducts = async () => {
     const products = await productService.getAll();
@@ -61,9 +60,7 @@ export default function ProductsAdminTable() {
       toast.success("Producto actualizado correctamente");
       setIsOpenModalEdit(false);
     } catch (error) {
-      toast.error(
-        "Error al actualizar el producto: " + (error as Error).message
-      );
+      toast.error("Error al actualizar el producto: " + (error as Error).message);
     }
   };
 
@@ -96,9 +93,7 @@ export default function ProductsAdminTable() {
       headerClassName: "super-app-theme--header",
       flex: 1,
       valueFormatter: (value?: number) => {
-        if (value == null) {
-          return "$0.00";
-        }
+        if (value == null) return "$0.00";
         return `$${value.toFixed(2)}`;
       },
     },
@@ -119,18 +114,17 @@ export default function ProductsAdminTable() {
   ];
 
   return (
-    <div key={Date.now()}>
+    <div >
       <AddProductsButton onSubmit={onSubmitAddProducts} />
-      <div style={{ height: 650, width: "100%" }} className="md:p-[2rem] ">
+      <div style={{ height: 650, width: "100%" }} className="md:p-[2rem]">
         <DataGrid
           sx={{
             "& .super-app-theme--header": {
               backgroundColor: "#333333",
               color: "#ffffff",
-              "& .MuiDataGrid-sortIcon, & .MuiDataGrid-iconSeparator, & .MuiSvgIcon-root":
-                {
-                  color: "#ffffff",
-                },
+              "& .MuiDataGrid-sortIcon, & .MuiDataGrid-iconSeparator, & .MuiSvgIcon-root": {
+                color: "#ffffff",
+              },
             },
             "& .MuiDataGrid-row": {
               "&:hover": {
@@ -155,6 +149,7 @@ export default function ProductsAdminTable() {
           disableRowSelectionOnClick
         />
       </div>
+
       {isOpenModalDelete && (
         <ConfirmationModal
           textButtonConfirm="Eliminar"
@@ -174,6 +169,7 @@ export default function ProductsAdminTable() {
           </div>
         </ConfirmationModal>
       )}
+
       {isOpenModalEdit && selectedProductId && (
         <EditProductsModal
           productId={selectedProductId}

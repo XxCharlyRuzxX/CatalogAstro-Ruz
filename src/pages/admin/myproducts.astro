@@ -1,7 +1,6 @@
 ---
-import ProductsAdminTable from "@/components/admin/products/ProductsAdminTable";
 import Layout from "@/layouts/Layout.astro";
-import AppWrapper from "@/components/AppWrapper";
+import ProductsAdminTable from "@/components/admin/products/ProductsAdminTable";
 ---
 
 <Layout>
@@ -9,8 +8,6 @@ import AppWrapper from "@/components/AppWrapper";
     <h1 class="text-xl md:text-2xl font-bold mb-4 pt-8 text-center">
       Administrar Productos
     </h1>
-    <AppWrapper client:only="react">
-      <ProductsAdminTable client:load/>
-    </AppWrapper>
+    <ProductsAdminTable client:only="react" />
   </div>
 </Layout>

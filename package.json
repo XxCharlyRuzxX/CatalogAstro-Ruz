@@ -11,9 +11,10 @@
   "dependencies": {
     "@astrojs/node": "^9.2.2",
     "@astrojs/react": "^4.3.0",
-    "@emotion/cache": "^11.14.0",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@emotion/utils": "^1.2.1",
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
     "@mui/x-data-grid": "^8.7.0",
@@ -30,5 +31,8 @@
     "@types/jsonwebtoken": "^9.0.10",
     "prisma": "^6.10.0",
     "tailwindcss": "^4.1.10"
-  }
+  },
+  "overrides": {
+        "@emotion/serialize": "1.2.0"
+    }
 }
