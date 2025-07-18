@@ -31,19 +31,22 @@ export default function LogoutButton() {
         onClick={handleOnclickButton}
         className="text-white bg-red-500 rounded-2xl hover:bg-red-600 px-4 py-2 font-semibold transition-colors duration-300"
       >
-        Cerrar Sesión
+        <p className="p-base"> Cerrar Sesión</p>
       </button>
       {isModalOpen && (
-        <ConfirmationModal onCancel={handleOnCloseModal} onConfirm={handleOnConfirmModal}>
-        <div className="flex flex-col items-center justify-center px-6 py-2">
-          <h2 className="text-xl font-semibold mb-4 text-[16px] md:text-[20px]">
-            ¿Estás seguro de cerrar la sesión?
-          </h2>
-          <p className="text-gray-600 mb-4">
-            Esta acción cerrará tu sesión actual.
-          </p>
-        </div>
-      </ConfirmationModal>
+        <ConfirmationModal
+          onCancel={handleOnCloseModal}
+          onConfirm={handleOnConfirmModal}
+        >
+          <div className="flex flex-col items-center justify-center px-6 py-2">
+            <h3 className="font-semibold mb-4 ">
+              ¿Estás seguro de cerrar la sesión?
+            </h3>
+            <p className="text-gray-600 mb-4 p-base">
+              Esta acción cerrará tu sesión actual.
+            </p>
+          </div>
+        </ConfirmationModal>
       )}
     </>
   );

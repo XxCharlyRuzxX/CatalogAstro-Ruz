@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import MyProductsList from "./MyProductsList";
-import OrderComponent from "./OrderComponet";
 import type { Product } from "@/lib/interfaces";
 import { getSelectedProducts } from "@/utils/selectedProducts";
 
@@ -19,7 +18,6 @@ export default function MyProductsComponent() {
       </div>
 
       <div className="flex flex-col items-center justify-center gap-6 col-span-5 lg:col-span-2">
-        <OrderComponent productsNumber={products.length}/>
         <img
           src="/icons/supermarket.svg"
           alt="Catálogo"

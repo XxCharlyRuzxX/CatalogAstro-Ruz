@@ -19,10 +19,10 @@ import Footer from "@/components/Footer.astro";
 		<title>Liz Ruz</title>
     <ClientRouter />
 	</head>
-	<body>
+	<body class="flex flex-col min-h-screen">
 		<HeaderPage />
     <ToastProvider client:load/>
-    <main class="pt-[8vh] md:pt-[12vh] font-lora">
+    <main class="flex-grow pt-[8vh] md:pt-[12vh] font-lora">
       <slot />
     </main>
     <Footer/>
@@ -41,6 +41,9 @@ import Footer from "@/components/Footer.astro";
 <style :isglobal>
   html {
     font-family: 'Lora', serif;
+  }
+  h1 {
+    font-size: ;
   }
 </style>
 

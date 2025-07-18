@@ -11,7 +11,7 @@ export default function SnowEffect({
   snowCount = 100,
   snowColor = "black",
   snowShadowColor = "black",
-  zIndex = "-1",
+  zIndex = "0",
 }: SnowEffectProps) {
   const [animations, setAnimations] = useState<string[]>([]);
 
@@ -73,7 +73,7 @@ export default function SnowEffect({
 
   return (
     <>
-      <div id="snow-container"></div>
+      <div id="snow-container" className="max-h-screen"></div>
       <style>{animations.join("\n")}</style>
     </>
   );

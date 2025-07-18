@@ -38,7 +38,7 @@ export default function CategoriesAdminTable({
   return (
     <div className="w-full p-4 shadow-md rounded-lg bg-white">
       <div className="overflow-x-auto">
-        <table className="min-w-full border-gray-100 text-[.75rem] md:text-[.95rem]">
+        <table className="min-w-full border-gray-100 p-base">
           <thead className="bg-[#333333]">
             <tr className="text-white">
               <th className="text-center px-4 py-2">Nombre de la Categoria</th>

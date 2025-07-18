@@ -33,6 +33,6 @@
     "tailwindcss": "^4.1.10"
   },
   "overrides": {
-        "@emotion/serialize": "1.2.0"
-    }
+    "@emotion/serialize": "1.2.0"
+  }
 }

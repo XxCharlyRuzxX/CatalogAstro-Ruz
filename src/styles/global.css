@@ -10,3 +10,25 @@
   --black: #000000;
   --white: #FFFFFF;
 }
+
+@layer base {
+  h1 {
+    @apply text-[1.25rem] md:text-[1.6875rem] font-bold;       /* 20px → 27px */
+  }
+  h2 {
+    @apply text-[1.25rem] md:text-[1.5625rem] font-semibold;   /* 20px → 25px */
+  }
+  h3 {
+    @apply text-[0.875rem] sm:text-[1rem] md:text-[1.125rem] font-medium; /* 14px → 16px → 18px */
+  }
+
+  .p-small {
+    @apply text-[0.625rem] sm:text-[0.75rem] md:text-[0.875rem]; /* 10px → 12px → 14px */
+  }
+  .p-base {
+    @apply text-[0.75rem] sm:text-[0.875rem] md:text-[1rem]; /* 12px → 14px → 16px */
+  }
+  .p-large {
+    @apply text-[0.875rem] sm:text-[1rem] md:text-[1.125rem]; /* 14px → 16px → 18px */
+  }
+}

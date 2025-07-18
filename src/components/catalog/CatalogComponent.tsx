@@ -52,7 +52,7 @@ export default function CatalogComponent() {
         </div>
       </div>
       <div className="bg-white px-6 py-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <SelectCategories
             handleCategoryChange={handleCategoryChange}
             selectedCategory={selectedCategory}

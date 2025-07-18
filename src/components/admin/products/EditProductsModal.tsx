@@ -115,27 +115,27 @@ export default function EditProductsModal({
   const getDropzoneMensage = (file: File | null, isDragActive: boolean) => {
     if (file) {
       return (
-        <p className="text-(--primary-green) text-[12px] md:text-[16px]">
+        <p className="text-(--primary-green) p-base">
           Imagen cargada correctamente: <br />
           {file.name}
         </p>
       );
     }
     if (isDragActive && product?.imgProduct) {
-      return <p className="text-[12px] md:text-[16px] text-gray-500">Suelta la imagen aquí...</p>;
+      return <p className="p-base text-gray-500">Suelta la imagen aquí...</p>;
     }
     if (product?.imgProduct) {
       return (
         <>
-          <p className="text-(--primary-green) text-[12px] md:text-[16px]">Imagen Actual Registrada</p>
-          <p className="text-gray-500 text-[12px] md:text-[16px]">
+          <p className="text-(--primary-green) p-base">Imagen Actual Registrada</p>
+          <p className="text-gray-500 p-small">
             Arrastra y suelta una imagen, o haz clic para cambiar la imagen actual
           </p>
         </>
       );
     }
     return (
-      <p className="text-gray-500 text-[12px] md:text-[16px]">
+      <p className="text-gray-500 p-small">
         Arrastra y suelta una imagen, o haz clic para seleccionar
       </p>
     );
@@ -155,22 +155,22 @@ export default function EditProductsModal({
 
         <div className="p-4 text-black">
           <div className="flex justify-center gap-2 mb-2 md:mb-4 items-center">
-            <h2 className="text-[16px] md:text-xl font-semibold text-center">Editar producto</h2>
+            <h3 className="font-semibold text-center">Editar producto</h3>
             <img src="/icons/beauty.svg" alt="Producto" className="w-10 h-10" />
           </div>
 
           <form onSubmit={handleFormSubmit} className="flex flex-col">
-            <label htmlFor="productName" className="my-2 text-[12px] md:text-[16px]">
+            <label htmlFor="productName" className="my-2 p-base">
               Nombre del producto:
             </label>
             <input id="productName" name="productName" type={nameProduct.type} {...nameProduct.bind} />
 
-            <label htmlFor="productBrand" className="my-2 text-[12px] md:text-[16px]">
+            <label htmlFor="productBrand" className="my-2 p-base">
               Marca:
             </label>
             <input id="productBrand" name="productBrand" type={brand.type} {...brand.bind} />
 
-            <label htmlFor="productPrice" className="my-2 text-[12px] md:text-[16px]">
+            <label htmlFor="productPrice" className="my-2 p-base">
               Precio del producto:
             </label>
             <input
@@ -182,7 +182,7 @@ export default function EditProductsModal({
               {...priceProduct.bind}
             />
 
-            <label htmlFor="productImage" className="my-2 text-[12px] md:text-[16px]">
+            <label htmlFor="productImage" className="my-2 p-base">
               Imagen del producto:
             </label>
             <div
@@ -204,7 +204,7 @@ export default function EditProductsModal({
               </div>
             </div>
 
-            <label htmlFor="productDescription" className="my-2 text-[12px] md:text-[16px]">
+            <label htmlFor="productDescription" className="my-2 p-base">
               Descripción del producto:
             </label>
             <textarea
@@ -216,7 +216,7 @@ export default function EditProductsModal({
 
             <button
               type="submit"
-              className="bg-(--primary-green) hover:bg-lime-800 text-white py-2 rounded mt-3 text-[12px] md:text-[16px] transition-colors duration-300"
+              className="bg-(--primary-green) hover:bg-lime-800 text-white py-2 rounded mt-3 p-base transition-colors duration-300"
             >
               Editar Producto
             </button>

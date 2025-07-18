@@ -15,7 +15,7 @@ export default function SelectCategories({
   const [isOpen, setIsOpen] = useState(true);
 
   return (
-    <div className="p-4">
+    <div className="w-full">
       <div className="bg-(--primary-blush) rounded">
         <button
           onClick={() => setIsOpen(!isOpen)}

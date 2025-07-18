@@ -12,26 +12,22 @@ export default function AddCategoryModal({
   CloseModal,
   onSubmit,
 }: AddProductsModalProps) {
-
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(
-      {
-        name: categoryName.value,
-      }
-    );
+    onSubmit({
+      name: categoryName.value,
+    });
     categoryName.reset();
     CloseModal();
   };
 
   const categoryName = useField("", {
-      type: "text",
-      placeholder: "Nombre del producto",
-      required: true,
-      className:
-        "border p-2 rounded w-full placeholder:text-[12px] md:placeholder:text-[16px]",
-    });
-
+    type: "text",
+    placeholder: "Nombre del producto",
+    required: true,
+    className:
+      "border p-2 rounded w-full placeholder:text-[12px] md:placeholder:text-[16px]",
+  });
 
   if (!isOpen) return null;
 
@@ -47,26 +43,32 @@ export default function AddCategoryModal({
 
         <div className="p-4 text-black">
           <div className="flex justify-center gap-2 mb-2 md:mb-4 items-center">
-            <h2 className="text-[16px] md:text-xl font-semibold text-center">
+            <h3 className="font-semibold text-center">
               Añadir nueva categoría
-            </h2>
-            <img src="/icons/category.svg" alt="Producto" className="w-10 h-10" />
+            </h3>
+            <img
+              src="/icons/category.svg"
+              alt="Producto"
+              className="w-10 h-10"
+            />
           </div>
 
           <form onSubmit={handleFormSubmit} className="flex flex-col">
-            <label
-              htmlFor="productName"
-              className="my-2 text-[12px] md:text-[16px]"
-            >
+            <label htmlFor="productName" className="my-2 p-base">
               Nombre de la categoria:
             </label>
-            <input id="categoryName" name="categoryName" type={categoryName.type} {...categoryName.bind} />
+            <input
+              id="categoryName"
+              name="categoryName"
+              type={categoryName.type}
+              {...categoryName.bind}
+            />
 
             <button
               type="submit"
-              className="bg-(--primary-green) hover:bg-lime-800  text-white py-2 rounded mt-3 text-[12px] md:text-[16px] transition-colors duration-300 "
+              className="bg-(--primary-green) hover:bg-lime-800  text-white py-2 rounded mt-3 transition-colors duration-300 "
             >
-              Añadir Categoría
+              <p className="p-base"> Añadir Categoría</p>
             </button>
           </form>
         </div>

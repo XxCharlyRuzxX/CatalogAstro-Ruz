@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Checkbox } from "@mui/material";
-import type { Category, ProductWithSelectionToCategory } from "@/lib/interfaces";
+import type {
+  Category,
+  ProductWithSelectionToCategory,
+} from "@/lib/interfaces";
 import { categoryService } from "@/lib/service/categoryService";
 import { productService } from "@/lib/service/productService";
-
 
 interface CategoriesAdminEditProps {
   readonly categoryId: string;
@@ -15,7 +17,9 @@ export default function CategoriesAdminEdit({
   onSave,
 }: CategoriesAdminEditProps) {
   const [category, setCategory] = useState<Category | null>(null);
-  const [products, setProducts] = useState<ProductWithSelectionToCategory[]>([]);
+  const [products, setProducts] = useState<ProductWithSelectionToCategory[]>(
+    []
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
 
@@ -32,10 +36,12 @@ export default function CategoriesAdminEdit({
         fetchedCategory?.productsCategory?.map((p) => p.idProduct)
       );
 
-      const withSelection: ProductWithSelectionToCategory[] = allProducts.map((product) => ({
-        product,
-        selected: selectedIds.has(product.idProduct),
-      }));
+      const withSelection: ProductWithSelectionToCategory[] = allProducts.map(
+        (product) => ({
+          product,
+          selected: selectedIds.has(product.idProduct),
+        })
+      );
 
       withSelection.sort(sortProductsChecked);
       setProducts(withSelection);
@@ -83,11 +89,11 @@ export default function CategoriesAdminEdit({
   }, [categoryId]);
 
   return (
-    <div className="shadow-md rounded-lg p-4 bg-white text-[.75rem] md:text-[.95rem]">
+    <div className="shadow-md rounded-lg p-4 bg-white p-base">
       <div className="flex justify-between items-center mb-4 bg-[#333333]">
-        <h1 className="font-bold text-white p-2 rounded">
+        <p className="font-bold text-white p-2 rounded">
           Categoría: {category?.name}
-        </h1>
+        </p>
         <input
           type="text"
           placeholder="Buscar por nombre o marca ..."
@@ -96,12 +102,11 @@ export default function CategoriesAdminEdit({
             setSearchTerm(e.target.value);
             setPage(1);
           }}
-          className="border  border-gray-300 bg-white rounded-2xl px-2 py-1 text-sm w-48 md:w-64 mx-2 text-[.70rem] md:text-[.90rem]"
-        >
-        </input>
+          className="border  border-gray-300 bg-white rounded-2xl px-2 py-1 w-48 md:w-64 mx-2 p-small"
+        ></input>
       </div>
       <ul className="space-y-3">
-        { paginatedProducts.length === 0 && (
+        {paginatedProducts.length === 0 && (
           <li className="text-center text-gray-500 py-4 border-b pb-2">
             No se encontraron productos.
           </li>
@@ -124,23 +129,25 @@ export default function CategoriesAdminEdit({
       </ul>
       <div className="flex justify-between my-4 items-center">
         {totalPages > 1 && (
-          <div className="flex justify-center gap-4">
+          <div className="flex justify-center gap-x-2">
             <button
               className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 text-[.6rem] md:text-[.95rem]"
               onClick={() => setPage((prev) => prev - 1)}
               disabled={page === 1}
             >
-              Anterior
+              <p className="p-small">Anterior</p>
             </button>
             <span className="text-gray-600 self-center text-[.6rem] md:text-[.95rem]">
-              Página {page} de {totalPages}
+              <p className="p-small">
+                Página {page} de {totalPages}
+              </p>
             </span>
             <button
               className="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded disabled:opacity-50 text-[.6rem] md:text-[.95rem]"
               onClick={() => setPage((prev) => prev + 1)}
               disabled={page === totalPages}
             >
-              Siguiente
+            <p className="p-small">Siguiente</p>
             </button>
           </div>
         )}
@@ -148,7 +155,7 @@ export default function CategoriesAdminEdit({
           className="px-3 py-1 text-white bg-(--primary-green) hover:bg-lime-800 rounded disabled:opacity-50 text-[.6rem] md:text-[.95rem]"
           onClick={() => onSave(products)}
         >
-          Guardar Cambios
+          <p className="p-small">Guardar Cambios</p>
         </button>
       </div>
     </div>

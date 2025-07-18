@@ -1,6 +1,7 @@
 import type { Category, CategoryDTO } from "../interfaces";
 
 const BASE_URL = "/api/categories";
+const WINDOW_LOCATION = import.meta.env.VITE_API_BASE_URL || "http://localhost:4321"
 
 export type GetCategoriesParams = {
   id?: string;
@@ -9,7 +10,7 @@ export type GetCategoriesParams = {
 };
 
 function buildQueryURL(base: string, params?: GetCategoriesParams): string {
-  const url = new URL(base, "http://localhost:4321");
+  const url = new URL(base, WINDOW_LOCATION);
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {

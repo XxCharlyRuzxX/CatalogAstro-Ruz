@@ -18,7 +18,7 @@ export default function SearchCatalog({ onChangeParams }: SearchCatalogProps) {
           type="text"
           onChange={handleChange}
           placeholder="Buscar productos..."
-          className="w-full h-12 pl-4 pr-12 rounded-3xl bg-white text-[12px] md:text-[14px] lg:text-[16px] mb-4"
+          className="w-full h-12 pl-4 pr-12 rounded-3xl bg-white text-[0.75rem] md:text-[0.875rem] lg:text-[1rem] mb-4"
         />
         <img
           src="/icons/search.svg"

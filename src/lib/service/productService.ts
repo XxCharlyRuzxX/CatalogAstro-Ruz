@@ -1,6 +1,8 @@
 import type { Product, ProductDTO } from "../interfaces";
 
 const BASE_URL = "/api/products";
+const WINDOW_LOCATION = import.meta.env.VITE_API_BASE_URL || "http://localhost:4321"
+
 
 export type GetProductsParams = {
   id?: string;
@@ -12,7 +14,7 @@ export type GetProductsParams = {
 
 
 function buildQueryURL(base: string, params?: GetProductsParams): string {
-  const url = new URL(base, "http://localhost:4321");
+  const url = new URL(base, WINDOW_LOCATION);
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== null && value !== "") {

@@ -11,23 +11,31 @@ export default function ProductCard({ product }: Props) {
   return (
     <div
       style={{ backgroundColor: Colors.secondaryBlush }}
-      className=" w-[150px] md:w-[200px] lg:w-[250px] hover:scale-105 transition-transform duration-300"
+      className=" w-full h-full hover:scale-105 transition-transform duration-300"
     >
-      <a href={`/product/${product.idProduct}`}>
+      <a
+        href={`/product/${product.idProduct}`}
+        className="flex flex-col h-full"
+      >
         <img
           src={product.imgProduct}
           alt={product.nameProduct}
-          className="w-full h-[150px] md:h-[200px] lg:h-[250px] object-cover"
+          className="aspect-square object-cover"
         />
-        <div className="p-2 md:p-4">
-          <p className="my-2 text-[12px] md:text-[14px] lg:text-[16px]">{product.nameProduct}</p>
-          <p className="text-gray-900 text-[20px] md:text-[22px] lg:text-[25px] font-semibold">
+        <div className="p-2 md:p-4 flex flex-col flex-1">
+          <div className="flex-grow">
+            <p className="p-base my-2 overflow-hidden line-clamp-2">
+              {product.nameProduct}
+            </p>
+          </div>
+          <h2 className="text-gray-900  overflow-hidden">
             ${whole}
-            <span className="text-[10px] md:text-[12px] lg:text-[14px] ml-[1px]">.{decimal}</span>
-          </p>
+            <span className="text-[10px] md:text-[14px] ml-[1px]">
+              .{decimal}
+            </span>
+          </h2>
         </div>
       </a>
     </div>
   );
 }
-

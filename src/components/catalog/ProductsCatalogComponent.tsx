@@ -24,12 +24,14 @@ export default function ProductsCatalogComponent({
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   return (
-    <div className="md:col-span-2">
+    <div className="lg:col-span-2 w-full">
       <div className="flex justify-center">
-        <div className="grid grid-cols-2 xl:grid-cols-3 gap-10">
+      <div className="grid grid-cols-3 gap-3 md:gap-6 justify-items-center max-w-full">
           {paginatedProducts.length > 0 ? (
             paginatedProducts.map((product) => (
+              <div className="max-w-[250px]" key={product.idProduct}>
               <ProductCardReact key={product.idProduct} product={product} />
+              </div>
             ))
           ) : (
             <p className="text-[0.625rem] sm:text-[0.75rem] md:text-[0.875rem]">
@@ -39,18 +41,18 @@ export default function ProductsCatalogComponent({
         </div>
       </div>
       {totalPages > 1 && (
-        <div className="flex justify-center xl:justify-start xl:ml-10 items-center gap-4 mt-8">
+        <div className="flex justify-center xl:ml-10 items-center gap-4 mt-8">
           <button
             onClick={handlePrev}
             disabled={currentPage === 1}
             className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
           >
-            <p className="text-[0.625rem] sm:text-[0.75rem] md:text-[0.875rem]">
+            <p className="p-base">
               Anterior
             </p>
           </button>
           <span className="text-gray-700">
-            <p className="text-[0.625rem] sm:text-[0.75rem] text-black md:text-[0.875rem]">
+          <p className="p-base">
               Página {currentPage} de {totalPages}
             </p>
           </span>
@@ -59,7 +61,7 @@ export default function ProductsCatalogComponent({
             disabled={currentPage === totalPages}
             className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
           >
-            <p className="text-[0.625rem] sm:text-[0.75rem] text-black md:text-[0.875rem]">
+            <p className="p-base">
               Siguiente
             </p>
           </button>

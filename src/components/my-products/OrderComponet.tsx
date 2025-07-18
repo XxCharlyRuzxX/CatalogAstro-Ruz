@@ -19,9 +19,9 @@ export default function OrderComponent({productsNumber} : OrderComponentProps) {
     <div className="flex flex-col items-center justify-center gap-4 w-full ">
     <button
           onClick={() => {handleButtonClick()}}
-          className="text-white bg-(--primary-green) px-6 py-3 rounded hover:bg-lime-800 transition-colors duration-300 min-w-2xs flex gap-2 justify-center cursor-pointer w-full lg:w-auto"
+          className="text-white bg-(--primary-green) px-6 py-3  hover:bg-lime-800 transition-colors duration-300 min-w-2xs flex gap-2 justify-center cursor-pointer w-full"
           >
-          <p>Pedir en Tienda</p>
+          <h3 className="font-normal">Pedir en Tienda</h3>
           <img
             src="/icons/whatsapp-logo.svg"
             alt="Carrito"

@@ -32,7 +32,7 @@ export default function AddProductsButton({ onSubmit }: AddProductsButtonProps) 
       <span
         className="ml-2 text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"
         >
-        <p className="text-[0.75rem] md:text-[0.875rem] text-center">Añadir producto</p>
+        <p className="p-base text-center">Añadir producto</p>
       </span>
     </button>
   </div>

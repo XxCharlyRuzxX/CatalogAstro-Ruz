@@ -160,10 +160,10 @@ export default function ProductsAdminTable() {
           onCancel={() => setIsOpenModalDelete(false)}
         >
           <div className="flex flex-col items-center justify-center px-6 py-2">
-            <h2 className="text-xl font-semibold mb-4 text-[16px] md:text-[20px]">
+            <h3 className="font-semibold mb-4 ">
               ¿Estás seguro de eliminar este producto?
-            </h2>
-            <p className="text-gray-600 mb-4">
+            </h3>
+            <p className="text-gray-600 mb-4 p-base">
               Esta acción no se puede deshacer.
             </p>
           </div>

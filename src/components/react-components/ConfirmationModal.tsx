@@ -25,13 +25,13 @@ export default function ConfirmationModal({
             onClick={onConfirm}
             className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
           >
-            {textButtonConfirm}
+            <p className="p-base"> {textButtonConfirm}</p>
           </button>
           <button
             onClick={onCancel}
             className="px-4 py-2 bg-red-500 text-white rounded hover:bg-gray-400"
           >
-            {textButtonCancel}
+            <p className="p-base"> {textButtonCancel}</p>
           </button>
         </div>
       </div>

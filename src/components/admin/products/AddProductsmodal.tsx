@@ -74,17 +74,17 @@ export default function AddProductsModal({
   const getDropzoneMensage = (file: File | null, isDragActive: boolean) => {
     if (file) {
       return (
-        <p className="text-(--primary-green) text-[12px] md:text-[16px]">
+        <p className="text-(--primary-green) p-base">
           Imagen cargada corrctamente:
           {file.name}
         </p>
       );
     }
     if (isDragActive) {
-      return <p className="text-[12px] md:text-[16px] text-gray-500">Suelta la imagen aquí...</p>;
+      return <p className="p-small text-gray-500">Suelta la imagen aquí...</p>;
     }
     return (
-      <p className="text-gray-500 text-[12px] md:text-[16px]">
+      <p className="text-gray-500 p-small">
         Arrastra y suelta una imagen, o haz clic para seleccionar
       </p>
     );
@@ -113,7 +113,7 @@ export default function AddProductsModal({
           <form onSubmit={handleFormSubmit} className="flex flex-col">
             <label
               htmlFor="productName"
-              className="my-2 text-[12px] md:text-[16px]"
+              className="my-2 p-base"
             >
               Nombre del producto:
             </label>
@@ -121,7 +121,7 @@ export default function AddProductsModal({
 
             <label
               htmlFor="productBrand"
-              className="my-2 text-[12px] md:text-[16px]"
+              className="my-2 p-base"
             >
               Marca:
             </label>
@@ -129,7 +129,7 @@ export default function AddProductsModal({
 
             <label
               htmlFor="productPrice"
-              className="my-2 text-[12px] md:text-[16px]"
+              className="my-2 p-base"
             >
               Precio del producto:
             </label>
@@ -143,7 +143,7 @@ export default function AddProductsModal({
             />
             <label
               htmlFor="productImage"
-              className="my-2 text-[12px] md:text-[16px]"
+              className="my-2 p-base"
             >
               Imagen del producto:
             </label>
@@ -169,7 +169,7 @@ export default function AddProductsModal({
 
             <label
               htmlFor="productDescription"
-              className="my-2 text-[12px] md:text-[16px]"
+              className="my-2 p-base"
             >
               Descripción del producto:
             </label>
@@ -177,7 +177,7 @@ export default function AddProductsModal({
 
             <button
               type="submit"
-              className="bg-(--primary-green) hover:bg-lime-800  text-white py-2 rounded mt-3 text-[12px] md:text-[16px] transition-colors duration-300 "
+              className="bg-(--primary-green) hover:bg-lime-800  text-white py-2 rounded mt-3 p-base transition-colors duration-300 "
             >
               Añadir Producto
             </button>

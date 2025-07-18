@@ -4,6 +4,7 @@ import Layout from '@layouts/Layout.astro';
 import type { Product } from "@lib/interfaces";
 import { productService, type GetProductsParams, } from "@lib/service/productService";
 import { Image } from "astro:assets";
+import SnowEffect from '@/components/SnowEffect';
 
 export async function getStaticPaths() {
   const products: Product[] = await productService.getAll();
@@ -23,16 +24,16 @@ export const prerender = true;
 
 <Layout>
   <div class="min-h-screen">
-    <div class="flex items-center justify-center p-10 px-6 sm:px-10 md:px-14 md:p-25">
+    <div class="flex items-center justify-center p-10 px-6 sm:px-10 md:px-14 md:p-25 ">
       <div class="flex flex-col md:flex-row w-full md:max-w-4xl max-w-xl gap-6 md:gap-10 items-center md:items-start text-center md:text-left">
 
-        <div class="flex flex-col items-center justify-center md:gap-y-4 md:basis-1/2 order-2 md:order-1  mx-20 md:mx-0">
+        <div class="flex flex-col items-center justify-center md:basis-1/2 order-2 md:order-1  mx-20 md:mx-0">
           <div class="w-full aspect-square">
             <Image
               src={product?.imgProduct}
               alt={product?.nameProduct}
               transition:name={`img-product-${product.idProduct}`}
-              class="w-full h-full object-cover rounded"
+              class="w-full h-full object-cover"
               loading="lazy"
               width={400}
               height={400}
@@ -41,31 +42,31 @@ export const prerender = true;
           <AddToCartButton product={product} client:load />
         </div>
 
-        <div class="text-start flex flex-col gap-4 md:basis-1/2 order-3 md:order-2">
-          <h1 class="hidden md:block text-2xl xl:text-3xl font-semibold mb-4">
+        <div class="text-start flex flex-col gap-4 md:basis-1/2 order-3 md:order-2 mx-20 md:mx-4">
+          <h1 class="hidden md:block mb-4">
             {product?.nameProduct}
           </h1>
           <div>
-            <p class="font-semibold text-[14px] md:text-[16px] lg:text-[18px]">Descripción</p>
-            <p class="text-[14px] md:text-[16px] lg:text-[18px]">{product?.description}</p>
+            <h3 class="font-semibold">Descripción</h3>
+            <p class="p-large">{product?.description}</p>
           </div>
           <div>
-            <p class="font-semibold text-[14px] md:text-[16px] lg:text-[18px]">Marca</p>
-            <p class="text-[14px] md:text-[16px] lg:text-[18px]">{product?.brand}</p>
+            <h3 class="font-semibold">Marca</h3>
+            <p class="p-large">{product?.brand}</p>
           </div>
           <div>
-            <p class="font-semibold text-[14px] md:text-[16px] lg:text-[18px]">Categorías</p>
-            <p class="text-[14px] md:text-[16px] lg:text-[18px]">
+            <h3 class="font-semibold">Categorías</h3>
+            <p class="p-large">
               {product?.categoriesProduct?.map((category) => category.name).join(", ") ?? "Sin categoría"}
             </p>
           </div>
           <div>
-            <p class="font-semibold text-[14px] md:text-[16px] lg:text-[18px]">Precio</p>
-            <p class="text-[14px] md:text-[16px] lg:text-[18px]">$ {product?.priceProduct}</p>
+            <h3 class="font-semibold">Precio</h3>
+            <p class="p-large">$ {product?.priceProduct}</p>
           </div>
         </div>
         <div class="text-center md:hidden order-1">
-          <h1 class="text-xl sm:text-2xl font-semibold mb-4">{product?.nameProduct}</h1>
+          <h1 class="font-semibold mb-4">{product?.nameProduct}</h1>
         </div>
 
       </div>

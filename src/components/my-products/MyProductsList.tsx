@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Product } from "@/lib/interfaces";
 import { getSelectedProducts, removeProduct } from "@/utils/selectedProducts";
 import ConfirmationModal from "../react-components/ConfirmationModal";
+import OrderComponent from "./OrderComponet";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -57,8 +58,28 @@ export default function MyProductsList({
 
   return (
     <div>
+      <div className="flex">
+            <div className="flex gap-2 lg:gap-5 font-semibold justify-end mb-2">
+              <div>
+              <p className="p-large">
+                Total de productos:{" "}
+                <span className="p-large font-normal">
+                  {products.length}
+                </span>
+              </p>
+              </div>
+              <div>
+              <p className="p-large">
+                Total a pagar:{" "}
+                <span className="text-(--primary-green) p-large">
+                  ${totalPrice.toFixed(2)}
+                </span>
+              </p>
+                </div>
+            </div>
+          </div>
       {products.length > 0 ? (
-        <ul className="flex flex-col space-y-2 border border-b-0">
+        <><ul className="flex flex-col space-y-2 border border-b-0">
           {currentProducts.map((product) => (
             <li
               key={product.idProduct}
@@ -67,16 +88,15 @@ export default function MyProductsList({
               <img
                 src={product.imgProduct}
                 alt={product.nameProduct}
-                className="w-[60px] sm:w-[70px] md:w-[80px] object-cover aspect-square"
-              />
+                className="w-[60px] sm:w-[70px] md:w-[80px] object-cover aspect-square" />
               <div className="flex-1">
                 <h3 className="text-sm sm:text-base md:text-lg font-semibold">
                   {product.nameProduct}
                 </h3>
-                <p className="text-[12px] sm:text-sm md:text-base text-gray-700">
+                <p className="p-base text-gray-700">
                   {product.description}
                 </p>
-                <p className="text-[12px] sm:text-sm md:text-base font-bold whitespace-nowrap">
+                <p className="p-base font-bold whitespace-nowrap">
                   ${product.priceProduct.toFixed(2)}
                 </p>
               </div>
@@ -85,18 +105,18 @@ export default function MyProductsList({
                   <img
                     src="/icons/trash.svg"
                     alt="Eliminar"
-                    className="w-6 h-6 cursor-pointer hover:opacity-80 transition-opacity duration-200"
-                  />
+                    className="w-6 h-6 cursor-pointer hover:opacity-80 transition-opacity duration-200" />
                 </button>
               </div>
             </li>
           ))}
         </ul>
+        <OrderComponent productsNumber={products.length} /></>
       ) : (
-        <p className="text-gray-500">No tienes productos en el carrito.</p>
+        <p className="text-gray-500 p-large">No tienes productos en el carrito.</p>
       )}
       {products.length > 0 && (
-        <div className="flex justify-center md:justify-between items-center mt-6 flex-wrap gap-4">
+        <div className="flex justify-center items-center mt-6 flex-wrap gap-4">
           {totalPages > 1 && (
             <div className="flex gap-2 flex-wrap">
               <button
@@ -132,22 +152,6 @@ export default function MyProductsList({
               </button>
             </div>
           )}
-          <div className="flex justify-end">
-            <div className="xl:flex gap-2 lg:gap-5 font-semibold justify-end text-sm sm:text-base xl:text-lg">
-              <p>
-                Total de productos:{" "}
-                <span className="text-sm sm:text-base md:text-lg font-normal">
-                  {products.length}
-                </span>
-              </p>
-              <p>
-                Total a pagar:{" "}
-                <span className="text-(--primary-green) text-sm sm:text-base md:text-lg">
-                  ${totalPrice.toFixed(2)}
-                </span>
-              </p>
-            </div>
-          </div>
         </div>
       )}
       {isOpenModal && productToRemoveId && (
@@ -161,9 +165,9 @@ export default function MyProductsList({
           }}
         >
           <div className="flex items-center justify-center gap-2">
-            <p className="text-x2s text-center">
+            <h3 className="text-center">
               ¿Estás seguro de que deseas eliminar este producto del carrito?
-            </p>
+            </h3>
             <img
               src="/icons/trash.svg"
               alt="Eliminar"
