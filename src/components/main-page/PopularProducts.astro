@@ -11,13 +11,13 @@ const params: GetProductsParams = {
 const products: Product[] = await productService.getAll(params);
 ---
 
-<section style={`background-color: ${Colors.primaryBlush};`} class="py-12 pb-20">
+<section class="py-12 pb-20 bg-(--primary-blush)">
   <h1 class="mb-6 text-center">Productos Populares</h1>
   <div class="max-w-6xl mx-auto px-4 pt-6">
     <div class="grid grid-cols-3 md:grid-cols-4 gap-6 justify-items-center max-w-full">
       {products.slice(0, 9).map((product) => (
         <ProductCard product={product} />
       ))}
-    </div>
+    </d>
   </div>
 </section>

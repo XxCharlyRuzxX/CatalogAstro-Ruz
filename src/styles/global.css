@@ -11,6 +11,17 @@
   --white: #FFFFFF;
 }
 
+/*@theme {
+  --primary-green: #363159;
+  --primary-gray: #F5F5F5;
+  --primary-blush: #0D1019;
+  --secondary-blush: #363159;
+  --dark-blush: #BFACAA;
+  --secondary-gray: #DDDBDB;
+  --black: #000000;
+  --white: #FFFFFF;
+}*/
+
 @layer base {
   h1 {
     @apply text-[1.25rem] md:text-[1.6875rem] font-bold;       /* 20px → 27px */

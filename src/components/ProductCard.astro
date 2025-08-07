@@ -8,8 +8,7 @@ const [whole, decimal] = product.priceProduct.toFixed(2).split(".");
 ---
 
 <div
-  style={`background-color: ${Colors.secondaryBlush};`}
-  class="hover:scale-105 transition-transform duration-300 flex flex-col w-full h-full"
+  class="bg-(--secondary-blush) hover:scale-105 transition-transform duration-300 flex flex-col w-full h-full rounded-lg overflow-hidden"
 >
 <a href={`/product/${product.idProduct}`} class="flex flex-col h-full">
   <div class="w-full aspect-square bg-white">

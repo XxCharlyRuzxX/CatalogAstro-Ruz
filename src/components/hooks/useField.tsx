@@ -15,7 +15,7 @@ export default function useField(initialValue = "", options: UseFieldOptions = {
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setValue(e.target.value);
   };
-  const finalClassName = `${className} p-small`;
+  const finalClassName = `${className} p-base`;
 
   const reset = () => setValue(initialValue);
 

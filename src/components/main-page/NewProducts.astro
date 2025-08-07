@@ -11,7 +11,7 @@ const params: GetProductsParams = {
 const products: Product[] = await productService.getAll(params);
 ---
 
-<section style={`background-color: ${Colors.white};`} class="py-12 pb-20">
+<section class="py-12 pb-20 bg-white">
   <h1 class="mb-6 text-center">Nuevos Productos</h1>
   <div class="max-w-6xl mx-auto px-4 pt-6">
     <div class="grid grid-cols-3 md:grid-cols-4 gap-6 justify-items-center max-w-full">
