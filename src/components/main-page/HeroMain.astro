@@ -1,0 +1,41 @@
+---
+import { Image } from "astro:assets";
+
+const heroImage = "/images/libelulaFondo.jpg";
+---
+
+<section class="relative min-h-[70vh] w-full overflow-hidden">
+  <Image
+    src={heroImage}
+    alt="Imagen principal de la tienda"
+    class="absolute inset-0 h-full w-full object-cover"
+    loading="eager"
+    width={1200}
+    height={800}
+  />
+
+  <div class="absolute inset-0 bg-black/35"></div>
+
+  <div class="relative z-10 flex min-h-[90vh] items-center px-5 py-14 sm:px-8 lg:min-h-[100vh] lg:px-16">
+    <div class="max-w-xl text-white">
+      <p class="mb-3 text-[11px] uppercase tracking-[0.35em] text-[#E8DDD1] sm:text-xs">
+        Nueva colección
+      </p>
+
+      <h1 class="max-w-[12ch] text-4xl leading-tight font-light sm:text-5xl lg:text-6xl">
+        Descubre productos que transforman tu rutina
+      </h1>
+
+      <p class="mt-4 max-w-md text-sm leading-6 text-[#F5EFE8] sm:text-base">
+        Encuentra tus favoritos en una experiencia más limpia, moderna y enfocada en lo esencial.
+      </p>
+
+      <a
+        href="/catalog"
+        class="mt-8 inline-flex items-center justify-center rounded-full bg-[#0F6C74] px-7 py-3 text-xs font-medium uppercase tracking-[0.18em] text-white transition hover:bg-[#0C5960]"
+      >
+        Ir al catálogo
+      </a>
+    </div>
+  </div>
+</section>

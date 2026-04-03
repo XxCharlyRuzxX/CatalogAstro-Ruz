@@ -4,30 +4,30 @@ import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
 import ToastProvider from "@/components/react-components/ToastProvider";
 import AdminPanelButton from "@/components/AdminPanelButton";
-import Footer from "@/components/Footer.astro";
 ---
+
 <!doctype html>
 <html class="notranslate" translate="no" lang="es">
   <head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/icons/dragonfly.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
-		<meta name="generator" content={Astro.generator} />
-		<title>Liz Ruz</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/icons/dragonfly.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <title>Liz Ruz</title>
     <ClientRouter />
-	</head>
-	<body class="flex flex-col min-h-screen">
-		<HeaderPage />
-    <ToastProvider client:load/>
-    <main class="flex-grow pt-[8vh] md:pt-[12vh] font-lora">
-      <slot />
-    </main>
-    <Footer/>
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <HeaderPage />
+    <ToastProvider client:load />
+    <main class="flex-grow pt-[64px] font-lora"><slot /></main>
     <AdminPanelButton client:load />
-	</body>
+  </body>
 </html>
 
 <style>
@@ -40,11 +40,10 @@ import Footer from "@/components/Footer.astro";
 </style>
 <style :isglobal>
   html {
-    font-family: 'Lora', serif ;
+    font-family: "Lora", serif;
     /*color: white;*/
   }
   h1 {
-    font-size: ;
+    font-size:;
   }
 </style>
-

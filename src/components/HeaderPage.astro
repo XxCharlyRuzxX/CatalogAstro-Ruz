@@ -1,76 +1,83 @@
 ---
-import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
 import CartBadge from "./react-components/CartBadge";
 ---
 
-<div class="fixed z-50 w-full h-[8vh] md:h-[12vh] flex items-center px-[0.25rem] sm:px-[0.5rem] md:px-[1rem] p-base bg-(--primary-green)">
-  <div class="flex-1 flex items-center gap-[0.625rem] md:gap-[1.25rem]">
-    <a href="/myproducts">
-      <div class="flex flex-col justify-center items-center relative">
-        <div class="relative">
-          <CartBadge client:load />
-          <Image
-            class="w-[1.5625rem] h-[1.5625rem] sm:w-[1.875rem] sm:h-[1.875rem] md:w-[2.5rem] md:h-[2.5rem]"
-            src="/icons/supermarket.svg"
-            alt="Catálogo"
-            width={40}
-            height={40}
-          />
-        </div>
-        <p>Mis Productos</p>
-      </div>
-    </a>
-
-    <a href="/catalog">
-      <div class="flex flex-col justify-center items-center">
-        <Image
-          class="w-[1.5625rem] h-[1.5625rem] sm:w-[1.875rem] sm:h-[1.875rem] md:w-[2.5rem] md:h-[2.5rem]"
-          src="/icons/beauty.svg"
-          alt="Catálogo"
-          width={40}
-          height={40}
+<header class="fixed top-0 z-50 w-full border-b border-[#D8D5CF] bg-[#F4F1EC]">
+  <div
+    class="mx-auto flex h-[64px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:h-[72px] lg:px-8"
+  >
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a
+        href="/catalog"
+        class="group inline-flex items-center gap-2 rounded-full px-3 py-2 text-[#2F3433] transition hover:bg-[#E9E5DF]"
+        aria-label="Catálogo"
+      >
+        <Icon
+          name="lucide:layout-grid"
+          class="h-5 w-5 text-[#0F6C74] transition group-hover:scale-105"
         />
-        <p>Catálogo</p>
-      </div>
+        <span class="hidden text-sm font-medium lg:inline">Catálogo</span>
+      </a>
+
+      <a
+        href="/myproducts"
+        class="group relative inline-flex items-center gap-2 rounded-full px-3 py-2 text-[#2F3433] transition hover:bg-[#E9E5DF]"
+        aria-label="Carrito"
+      >
+      <span class="absolute right-0.5 top-0.5 md:right-0.5 md:top-0.5">
+          <CartBadge client:load />
+        </span>
+
+        <Icon
+          name="lucide:shopping-bag"
+          class="h-5 w-5 text-[#0F6C74] transition group-hover:scale-105"
+        />
+        <span class="hidden text-sm font-medium lg:inline">Carrito</span>
+      </a>
+    </div>
+
+    <a
+      href="/"
+      class="inline-flex items-center gap-2 text-[#1E1E1C]"
+      aria-label="Inicio"
+    >
+      <Icon name="lucide:sparkles" class="h-5 w-5 text-[#0F6C74]"/>
+      <span
+        class="text-sm font-medium tracking-[0.12em] uppercase sm:text-base"
+      >
+        Liz Ruz
+      </span>
     </a>
-  </div>
 
-  <a href="/">
-    <div class="flex-1 flex justify-center items-center gap-[0.5rem] md:gap-[0.75rem]">
-      <Image
-        class="w-[1.5625rem] h-[1.5625rem] sm:w-[1.875rem] sm:h-[1.875rem] md:w-[3.125rem] md:h-[3.125rem]"
-        src="/icons/dragonfly.svg"
-        alt="Logo"
-        width={50}
-        height={50}
-      />
-      <h1 class="font-semibold">Liz Ruz</h1>
-    </div>
-  </a>
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a
+        href="https://www.facebook.com/liz.ruz.5688"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group inline-flex items-center gap-2 rounded-full px-3 py-2 text-[#2F3433] transition hover:bg-[#E9E5DF]"
+        aria-label="Facebook"
+      >
+        <Icon
+          name="mdi:facebook"
+          class="h-5 w-5 text-[#0F6C74] transition group-hover:scale-105"
+        />
+        <span class="hidden text-sm font-medium lg:inline">Facebook</span>
+      </a>
 
-  <div class="flex-1 flex justify-end items-center">
-    <div class="flex flex-col justify-center items-center">
-      <div class="flex justify-center items-center gap-[0.5rem] pb-[0.25rem]">
-        <a href="https://www.facebook.com/liz.ruz.5688" target="_blank">
-          <Image
-            class="w-[1.25rem] h-[1.25rem] sm:w-[1.5625rem] sm:h-[1.5625rem] md:w-[1.875rem] md:h-[1.875rem]"
-            src="/icons/facebook-logo.svg"
-            alt="Facebook Icon"
-            width={30}
-            height={30}
-          />
-        </a>
-        <a href="https://www.instagram.com/lizruz2021/" target="_blank">
-          <Image
-            class="w-[1.25rem] h-[1.25rem] sm:w-[1.5625rem] sm:h-[1.5625rem] md:w-[1.875rem] md:h-[1.875rem]"
-            src="/icons/instagram-logo.svg"
-            alt="Instagram Icon"
-            width={30}
-            height={30}
-          />
-        </a>
-      </div>
-      <p>Mis Redes Sociales</p>
+      <a
+        href="https://www.instagram.com/lizruz2021/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group inline-flex items-center gap-2 rounded-full px-3 py-2 text-[#2F3433] transition hover:bg-[#E9E5DF]"
+        aria-label="Instagram"
+      >
+        <Icon
+          name="mdi:instagram"
+          class="h-5 w-5 text-[#0F6C74] transition group-hover:scale-105"
+        />
+        <span class="hidden text-sm font-medium lg:inline">Instagram</span>
+      </a>
     </div>
   </div>
-</div>
+</header>
