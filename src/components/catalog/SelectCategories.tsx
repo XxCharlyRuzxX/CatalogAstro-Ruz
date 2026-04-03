@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { Category } from "@/lib/interfaces";
 
 interface SelectCategoriesProps {
@@ -12,67 +11,35 @@ export default function SelectCategories({
   selectedCategory,
   categories,
 }: Readonly<SelectCategoriesProps>) {
-  const [isOpen, setIsOpen] = useState(true);
-
   return (
     <div className="w-full">
-      <div className="bg-(--primary-blush) rounded">
+      <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
         <button
-          onClick={() => setIsOpen(!isOpen)}
-          className={`w-full text-left py-1.5 px-2 md:py-2.5 md:px-2.5 text-black flex justify-between items-center bg-(--primary-blush) ${
-            isOpen ? "bg-(--secondary-blush)" : "bg-(--primary-blush)"
+          type="button"
+          onClick={() => handleCategoryChange("all")}
+          className={`rounded-full px-4 py-2 text-[10px] font-medium uppercase tracking-[0.14em] transition sm:px-5 sm:py-2.5 sm:text-xs ${
+            selectedCategory === "all"
+              ? "bg-[#0F6C74] text-white shadow-[0_6px_16px_rgba(79,195,123,0.22)]"
+              : "bg-white text-[#2F3433] hover:bg-[#ECE8E2]"
           }`}
         >
-          <p className="my-2 text-[12px] md:text-[13px] lg:text-[14px]">
-            Seleccionar por Categoría
-          </p>
-          <span className="text-xl">
-            <img
-              src={"/icons/expand.svg"}
-              alt={"expand-icon"}
-              className={`w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 ${
-                isOpen ? "rotate-180" : ""
-              }`}
-            />
-          </span>
+          Todas
         </button>
 
-        {isOpen && (
-          <ul className="transition-all duration-300 ease-in-out">
-            <li>
-              <button
-                type="button"
-                onClick={() => handleCategoryChange("all")}
-                className={`w-full text-left py-1.5 px-2 md:py-2.5 md:px-2.5  ${
-                  selectedCategory === "all"
-                    ? "bg-(--secondary-blush)"
-                    : "hover:bg-gray-300 cursor-pointer"
-                }`}
-              >
-                <p className="my-2 text-[12px] md:text-[13px] lg:text-[14px]">
-                  Todas las Categorías
-                </p>
-              </button>
-            </li>
-            {categories.map((category) => (
-              <li key={category.id}>
-                <button
-                  type="button"
-                  onClick={() => handleCategoryChange(category.id)}
-                  className={`w-full text-left py-1.5 px-2 md:py-2.5 md:px-2.5 ${
-                    selectedCategory === category.id
-                      ? "bg-(--secondary-blush)"
-                      : "hover:bg-gray-300 cursor-pointer"
-                  }`}
-                >
-                  <p className="my-2 text-[12px] md:text-[13px] lg:text-[14px]">{`${
-                    category.name
-                  } (${category.productsCategory?.length ?? 0})`}</p>
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            type="button"
+            onClick={() => handleCategoryChange(category.id)}
+            className={`rounded-full px-4 py-2 text-[10px] font-medium uppercase tracking-[0.14em] transition sm:px-5 sm:py-2.5 sm:text-xs ${
+              selectedCategory === category.id
+                ? "bg-[#0F6C74] text-white shadow-[0_6px_16px_rgba(79,195,123,0.22)]"
+                : "bg-white text-[#2F3433] hover:bg-[#ECE8E2]"
+            }`}
+          >
+            {category.name}
+          </button>
+        ))}
       </div>
     </div>
   );

@@ -1,29 +1,20 @@
 import type { Product } from "@/lib/interfaces";
-import { toast } from "react-toastify";
+import { addProduct } from "@/utils/selectedProducts";
+import { Plus } from "lucide-react";
 
 type Props = { readonly product: Product };
 
 export default function AddToCartButton({ product }: Props) {
   const handleAddToCart = () => {
-    const stored = localStorage.getItem("productsSelected");
-    const current: Product[] = stored ? JSON.parse(stored) : [];
-
-    if (!current.find((p) => p.idProduct === product.idProduct)) {
-      current.push(product);
-      localStorage.setItem("productsSelected", JSON.stringify(current));
-
-      toast.success(`"${product.nameProduct}" añadido al carrito`);
-    } else {
-      toast.info(`"${product.nameProduct}" ya está en el carrito`);
-    }
+    addProduct(product);
   };
-
   return (
     <button
+      type="button"
+      className="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md transition hover:scale-105"
       onClick={handleAddToCart}
-      className="text-white bg-(--primary-green) w-full px-4 py-2 hover:bg-lime-800 transition-colors duration-300"
-      >
-      Añadir al carrito
+    >
+      <Plus className="w-5 h-5 text-[#2F3433]" />
     </button>
   );
 }

@@ -1,42 +1,34 @@
 import { useState } from "react";
-import AddProductsModal from "./AddProductsmodal";
 import type { ProductDTO } from "@/lib/interfaces";
+import { Plus } from "lucide-react";
+import ProductFormModal from "./ProductFormModal";
 
 interface AddProductsButtonProps {
   readonly onSubmit: (product: ProductDTO) => Promise<void>;
 }
 
-export default function AddProductsButton({ onSubmit }: AddProductsButtonProps) {
-  const  [openModal, setOpenModal] = useState(false);
+export default function AddProductsButton({
+  onSubmit,
+}: AddProductsButtonProps) {
+  const [openModal, setOpenModal] = useState(false);
 
-
-  const handleButtonClick = () => {
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  }
   return (
     <>
-    <div className="fixed bottom-10 left-10 z-50">
-    <button
-      className="group flex items-center rounded-xl bg-blue-500 overflow-hidden transition-all duration-300 ease-in-out w-10 h-10 sm:w-12 sm:h-12 hover:w-42 sm:hover:w-48 px-2 sm:px-3 shadow-lg"
-      onClick={handleButtonClick}
+      <button
+        onClick={() => setOpenModal(true)}
+          className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-xs font-medium uppercase tracking-[0.14em] transition sm:text-sm bg-[#2C3E3A] text-white shadow-[0_8px_20px_rgba(44,62,58,0.18)] hover:bg-[#2C3E3A]/90`}
       >
-      <img
-        src="/icons/add.svg"
-        alt="Actualizar"
-        className="w-6 h-6 transition-all duration-300 ease-in-out"
-        />
-      <span
-        className="ml-2 text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"
-        >
-        <p className="p-base text-center">Añadir producto</p>
-      </span>
-    </button>
-  </div>
-  <AddProductsModal isOpen={openModal} CloseModal={handleCloseModal} onSubmit={onSubmit}/>
-  </>
-  )
+        <Plus className="h-4 w-4" />
+        Añadir producto
+      </button>
+
+      <ProductFormModal
+        isOpen={openModal}
+        CloseModal={() => setOpenModal(false)}
+        onSubmit={onSubmit}
+        title="Añadir nuevo producto"
+        submitLabel="Crear producto"
+      />
+    </>
+  );
 }

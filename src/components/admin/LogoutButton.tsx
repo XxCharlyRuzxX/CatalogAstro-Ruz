@@ -19,7 +19,7 @@ export default function LogoutButton() {
       await fetch("/api/admin/logout", {
         method: "GET",
       });
-      window.location.href = "/admin/login";
+      globalThis.location.href = "/admin/login";
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }

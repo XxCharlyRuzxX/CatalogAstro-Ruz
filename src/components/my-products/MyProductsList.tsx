@@ -1,36 +1,37 @@
 import { useState } from "react";
-import type { Product } from "@/lib/interfaces";
-import { getSelectedProducts, removeProduct } from "@/utils/selectedProducts";
+import {
+  getSelectedProducts,
+  removeProduct,
+  increaseProductQuantity,
+  decreaseProductQuantity,
+  type SelectedProduct,
+} from "@/utils/selectedProducts";
 import ConfirmationModal from "../react-components/ConfirmationModal";
 import OrderComponent from "./OrderComponet";
-
-const ITEMS_PER_PAGE = 5;
+import { Minus, Plus, X } from "lucide-react";
 
 interface MyProductsListProps {
-  readonly products: Product[];
-  readonly setProducts: (products: Product[]) => void;
+  readonly products: SelectedProduct[];
+  readonly setProducts: (products: SelectedProduct[]) => void;
 }
 
 export default function MyProductsList({
   products,
   setProducts,
 }: MyProductsListProps) {
-  const [currentPage, setCurrentPage] = useState(1);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [productToRemoveId, setProductToRemoveId] = useState<string | null>(
-    null
+    null,
   );
 
-  const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentProducts = products.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE
+  const totalProducts = products.reduce(
+    (total, item) => total + item.quantity,
+    0,
   );
 
   const totalPrice = products.reduce(
-    (total, product) => total + product.priceProduct,
-    0
+    (total, item) => total + item.product.priceProduct * item.quantity,
+    0,
   );
 
   const handleRemoveButton = (id: string) => {
@@ -38,122 +39,149 @@ export default function MyProductsList({
     setIsOpenModal(true);
   };
 
+  const handleIncrease = (id: string) => {
+    increaseProductQuantity(id);
+    setProducts(getSelectedProducts());
+  };
+
+  const handleDecrease = (id: string) => {
+    decreaseProductQuantity(id);
+    setProducts(getSelectedProducts());
+  };
+
   const handleModalAccept = () => {
     if (!productToRemoveId) return;
 
     removeProduct(productToRemoveId);
-    const updated = getSelectedProducts();
-    setProducts(updated);
-
-    if (
-      (currentPage - 1) * ITEMS_PER_PAGE >= updated.length &&
-      currentPage > 1
-    ) {
-      setCurrentPage(currentPage - 1);
-    }
+    setProducts(getSelectedProducts());
 
     setIsOpenModal(false);
     setProductToRemoveId(null);
   };
 
+  if (products.length === 0) {
+    return (
+      <div className="px-6 py-12 text-center min-h-[30vh] rounded-[28px] bg-white/80 shadow-[0_10px_30px_rgba(0,0,0,0.04)]">
+        <p className="mt-2 text-sm uppercase tracking-[0.2em] text-[#7E8C87]">
+          No tienes productos en el carrito.
+        </p>
+        <a
+          href="/catalog"
+          className="mt-8 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-[#0F6C74] transition hover:text-[#0C5960]"
+        >
+          Seguir comprando →
+        </a>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <div className="flex">
-            <div className="flex gap-2 lg:gap-5 font-semibold justify-end mb-2">
-              <div>
-              <p className="p-large">
-                Total de productos:{" "}
-                <span className="p-large font-normal">
-                  {products.length}
-                </span>
-              </p>
-              </div>
-              <div>
-              <p className="p-large">
-                Total a pagar:{" "}
-                <span className="text-(--primary-green) p-large">
-                  ${totalPrice.toFixed(2)}
-                </span>
-              </p>
+    <div className="w-full">
+      <div className="mb-8">
+        <h2 className="text-2xl font-medium text-[#2F3433] sm:text-3xl">
+          Selección actual
+        </h2>
+
+        <p className="mt-2 text-sm uppercase tracking-[0.2em] text-[#7E8C87]">
+          {totalProducts} producto{totalProducts === 1 ? "" : "s"}
+        </p>
+      </div>
+
+      <div>
+        <ul className="flex flex-col gap-5 md:w-3/5 md:justify-center">
+          {products.map((item) => {
+            const { product, quantity } = item;
+            const lineTotal = product.priceProduct * quantity;
+
+            return (
+              <li key={product.idProduct} className="flex items-start gap-4">
+                <img
+                  src={product.imgProduct}
+                  alt={product.nameProduct}
+                  className="h-24 w-24 rounded-2xl object-cover"
+                />
+
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="text-lg font-medium text-[#2F3433]">
+                        {product.nameProduct}
+                      </h3>
+
+                      {product.description && (
+                        <p className="mt-1 line-clamp-2 text-sm text-[#6B7773]">
+                          {product.description}
+                        </p>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={() => handleRemoveButton(product.idProduct)}
+                      className="text-[#8A8E8B] hover:text-[#2F3433]"
+                    >
+                      <X className="h-5 w-5" />
+                    </button>
+                  </div>
+
+                  <div className="mt-3 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3 rounded-full bg-[#F1F3F2] px-3 py-2">
+                      <button
+                        onClick={() => handleDecrease(product.idProduct)}
+                        className="text-[#2F3433]"
+                        aria-label="Disminuir cantidad"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </button>
+
+                      <span className="min-w-[20px] text-center text-sm font-medium text-[#2F3433]">
+                        {quantity}
+                      </span>
+
+                      <button
+                        onClick={() => handleIncrease(product.idProduct)}
+                        className="text-[#2F3433]"
+                        aria-label="Aumentar cantidad"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </button>
+                    </div>
+
+                    <p className="text-lg font-medium text-[#0F6C74]">
+                      ${lineTotal.toFixed(2)}
+                    </p>
+                  </div>
                 </div>
-            </div>
-          </div>
-      {products.length > 0 ? (
-        <><ul className="flex flex-col space-y-2 border border-b-0">
-          {currentProducts.map((product) => (
-            <li
-              key={product.idProduct}
-              className="flex p-2 border-b gap-x-4 items-start"
-            >
-              <img
-                src={product.imgProduct}
-                alt={product.nameProduct}
-                className="w-[60px] sm:w-[70px] md:w-[80px] object-cover aspect-square" />
-              <div className="flex-1">
-                <h3 className="text-sm sm:text-base md:text-lg font-semibold">
-                  {product.nameProduct}
-                </h3>
-                <p className="p-base text-gray-700">
-                  {product.description}
-                </p>
-                <p className="p-base font-bold whitespace-nowrap">
-                  ${product.priceProduct.toFixed(2)}
-                </p>
-              </div>
-              <div className="flex flex-col justify-between items-end self-center text-right gap-2">
-                <button onClick={() => handleRemoveButton(product.idProduct)}>
-                  <img
-                    src="/icons/trash.svg"
-                    alt="Eliminar"
-                    className="w-6 h-6 cursor-pointer hover:opacity-80 transition-opacity duration-200" />
-                </button>
-              </div>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
-        <OrderComponent productsNumber={products.length} /></>
-      ) : (
-        <p className="text-gray-500 p-large">No tienes productos en el carrito.</p>
-      )}
-      {products.length > 0 && (
-        <div className="flex justify-center items-center mt-6 flex-wrap gap-4">
-          {totalPages > 1 && (
-            <div className="flex gap-2 flex-wrap">
-              <button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className="px-2 py-1 text-xs sm:text-sm lg:px-3 lg:py-1 md:text-base rounded border disabled:opacity-50"
-              >
-                ←
-              </button>
 
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentPage(index + 1)}
-                  className={`px-2 py-1 text-xs sm:text-sm lg:px-3 lg:py-1 lg:text-base rounded border ${
-                    currentPage === index + 1
-                      ? "bg-gray-300"
-                      : "hover:bg-gray-100"
-                  }`}
-                >
-                  {index + 1}
-                </button>
-              ))}
+        <a
+          href="/catalog"
+          className="mt-8 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-[#0F6C74] transition hover:text-[#0C5960]"
+        >
+          Seguir comprando →
+        </a>
+      </div>
 
-              <button
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                }
-                disabled={currentPage === totalPages}
-                className="px-2 py-1 text-xs sm:text-sm lg:px-3 lg:py-1 lg:text-base rounded border disabled:opacity-50"
-              >
-                →
-              </button>
-            </div>
-          )}
+      <div className="mt-5 pt-6">
+        <div className="flex items-end justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.18em] text-[#7E8C87]">
+              Total
+            </p>
+
+            <h3 className="mt-2 text-3xl font-medium text-[#2F3433]">
+              ${totalPrice.toFixed(2)}
+            </h3>
+          </div>
         </div>
-      )}
+
+        <div className="mt-6">
+          <OrderComponent productsNumber={totalProducts} />
+        </div>
+      </div>
+
       {isOpenModal && productToRemoveId && (
         <ConfirmationModal
           textButtonConfirm="Eliminar"
@@ -164,15 +192,8 @@ export default function MyProductsList({
             setProductToRemoveId(null);
           }}
         >
-          <div className="flex items-center justify-center gap-2">
-            <h3 className="text-center">
-              ¿Estás seguro de que deseas eliminar este producto del carrito?
-            </h3>
-            <img
-              src="/icons/trash.svg"
-              alt="Eliminar"
-              className="w-6 h-6 cursor-pointer hover:opacity-80 transition-opacity duration-200"
-            />
+          <div className="text-center">
+            ¿Eliminar este producto del carrito?
           </div>
         </ConfirmationModal>
       )}

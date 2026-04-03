@@ -1,5 +1,5 @@
 import type { Product } from "@/lib/interfaces/product";
-import { Colors } from "@/utils/colors";
+import AddToCartButton from "../react-components/AddToCardButton";
 
 type Props = {
   readonly product: Product;
@@ -9,33 +9,32 @@ export default function ProductCard({ product }: Props) {
   const [whole, decimal] = product.priceProduct.toFixed(2).split(".");
 
   return (
-    <div
-      style={{ backgroundColor: Colors.secondaryBlush }}
-      className=" w-full h-full hover:scale-105 transition-transform duration-300"
-    >
-      <a
-        href={`/product/${product.idProduct}`}
-        className="flex flex-col h-full"
-      >
-        <img
-          src={product.imgProduct}
-          alt={product.nameProduct}
-          className="aspect-square object-cover"
-        />
-        <div className="p-2 md:p-4 flex flex-col flex-1">
-          <div className="flex-grow">
-            <p className="p-base my-2 overflow-hidden line-clamp-2">
-              {product.nameProduct}
-            </p>
-          </div>
-          <h2 className="text-gray-900  overflow-hidden">
-            ${whole}
-            <span className="text-[10px] md:text-[14px] ml-[1px]">
-              .{decimal}
-            </span>
-          </h2>
+    <div className="w-full">
+        <div className="relative overflow-hidden rounded-3xl bg-[#646464]">
+          <picture>
+            <img
+              src={product.imgProduct}
+              alt={product.nameProduct}
+              className="w-full aspect-[4/5] object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+          </picture>
+          <AddToCartButton product={product} />
         </div>
-      </a>
+        <div className="mt-4 ml-3">
+          <h3 className="text-base font-medium text-[#1E1E1C] leading-snug">
+            {product.nameProduct}
+          </h3>
+
+          <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-[#8A8883]">
+            {product.brand}
+          </p>
+
+          <p className="mt-2 text-[#0F6C74] text-sm font-medium">
+            ${whole}
+            <span className="text-xs">.{decimal}</span>
+          </p>
+        </div>
     </div>
   );
 }

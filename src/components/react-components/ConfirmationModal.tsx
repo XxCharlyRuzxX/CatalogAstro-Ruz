@@ -17,25 +17,29 @@ export default function ConfirmationModal({
   onCancel,
 }: ConfirmationModalProps) {
   return createPortal(
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-100">
-      <div className="bg-white p-6 rounded-lg w-2xl relative shadow-lg mb-2 m-8">
-        {children}
-        <div className="flex justify-center items-center gap-4 mt-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+      <div className="w-full max-w-md rounded-3xl bg-white px-6 py-8 shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
+        <div className="text-center text-[#2F3433] text-base leading-relaxed">
+          {children}
+        </div>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <button
             onClick={onConfirm}
-            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+            className="w-full rounded-2xl bg-[#2C3E3A] px-5 py-3 text-white text-sm uppercase tracking-[0.12em]
+                       transition-all duration-300 hover:bg-[#243531] hover:scale-[1.02]"
           >
-            <p className="p-base"> {textButtonConfirm}</p>
+            {textButtonConfirm}
           </button>
           <button
             onClick={onCancel}
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-gray-400"
+            className="w-full rounded-2xl bg-[#F1F3F2] px-5 py-3 text-[#2F3433] text-sm uppercase tracking-[0.12em]
+                       transition-all duration-300 hover:bg-[#E4E8E6]"
           >
-            <p className="p-base"> {textButtonCancel}</p>
+            {textButtonCancel}
           </button>
         </div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }

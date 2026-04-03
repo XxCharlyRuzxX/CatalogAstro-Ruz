@@ -1,43 +1,32 @@
 import { useState } from "react";
 import type { CategoryDTO } from "@/lib/interfaces";
-import AddCategoryModal from "./AddCategoryModal";
+import { Plus } from "lucide-react";
+import CategoryFormModal from "./CategoriesFormModal";
 
 interface AddCategoriesButtonProps {
   readonly onSubmit: (category: CategoryDTO) => Promise<void>;
 }
 
-export default function AddCategoriesButton({ onSubmit }: AddCategoriesButtonProps) {
-  const  [openModal, setOpenModal] = useState(false);
-
-
-  const handleButtonClick = () => {
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  }
+export default function AddCategoriesButton({
+  onSubmit,
+}: AddCategoriesButtonProps) {
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <>
-    <div className="fixed bottom-10 left-10 z-50">
-    <button
-      className="group flex items-center rounded-xl bg-blue-500 overflow-hidden transition-all duration-300 ease-in-out w-10 h-10 sm:w-12 sm:h-12 hover:w-42 sm:hover:w-48 px-2 sm:px-3 shadow-lg"
-      onClick={handleButtonClick}
+      <button
+        onClick={() => setOpenModal(true)}
+        className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#2C3E3A] px-5 py-3 text-sm uppercase tracking-[0.12em] text-white transition-all duration-300 hover:scale-[1.01] hover:bg-[#243531]"
       >
-      <img
-        src="/icons/add.svg"
-        alt="Actualizar"
-        className="w-6 h-6 transition-all duration-300 ease-in-out"
-        />
-      <span
-        className="ml-2 text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"
-        >
-        <p className="p-base text-center">Añadir Categorias</p>
-      </span>
-    </button>
-  </div>
-  <AddCategoryModal isOpen={openModal} CloseModal={handleCloseModal} onSubmit={onSubmit}/>
-  </>
-  )
+        <Plus className="h-4 w-4" />
+        Añadir categoría
+      </button>
+
+      <CategoryFormModal
+        isOpen={openModal}
+        CloseModal={() => setOpenModal(false)}
+        onSubmit={onSubmit}
+      />
+    </>
+  );
 }

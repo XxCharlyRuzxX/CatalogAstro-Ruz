@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Product } from "@/lib/interfaces";
 import ProductCardReact from "./ProductCardReact";
 
@@ -6,7 +6,7 @@ interface ProductsCatalogComponentProps {
   readonly products: Product[];
 }
 
-const PRODUCTS_PER_PAGE = 9;
+const PRODUCTS_PER_PAGE = 8;
 
 export default function ProductsCatalogComponent({
   products,
@@ -14,6 +14,10 @@ export default function ProductsCatalogComponent({
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [products]);
 
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
   const endIndex = startIndex + PRODUCTS_PER_PAGE;
@@ -24,46 +28,43 @@ export default function ProductsCatalogComponent({
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   return (
-    <div className="lg:col-span-2 w-full">
-      <div className="flex justify-center">
-      <div className="grid grid-cols-3 gap-3 md:gap-6 justify-items-center max-w-full">
-          {paginatedProducts.length > 0 ? (
-            paginatedProducts.map((product) => (
-              <div className="max-w-[250px]" key={product.idProduct}>
-              <ProductCardReact key={product.idProduct} product={product} />
-              </div>
-            ))
-          ) : (
-            <p className="text-[0.625rem] sm:text-[0.75rem] md:text-[0.875rem]">
-              Ningún producto coincide con la búsqueda.
-            </p>
-          )}
+    <div className="w-full">
+      {paginatedProducts.length > 0 ? (
+        <div className="grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 xl:grid-cols-4">
+          {paginatedProducts.map((product) => (
+            <div key={product.idProduct}>
+              <ProductCardReact product={product} />
+            </div>
+          ))}
         </div>
-      </div>
+      ) : (
+        <div className="py-12 text-center">
+          <p className="text-sm text-[#6B6A66]">
+            Ningún producto coincide con la búsqueda.
+          </p>
+        </div>
+      )}
+
       {totalPages > 1 && (
-        <div className="flex justify-center xl:ml-10 items-center gap-4 mt-8">
+        <div className="mt-12 flex items-center justify-center gap-4">
           <button
             onClick={handlePrev}
             disabled={currentPage === 1}
-            className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+            className="rounded-full bg-[#0F6C74] px-5 py-2 text-sm text-[#F4F1EC] transition hover:bg-[#1694a0] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <p className="p-base">
-              Anterior
-            </p>
+            Anterior
           </button>
-          <span className="text-gray-700">
-          <p className="p-base">
-              Página {currentPage} de {totalPages}
-            </p>
+
+          <span className="text-sm text-black">
+            Página {currentPage} de {totalPages}
           </span>
+
           <button
             onClick={handleNext}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+            className="rounded-full bg-[#0F6C74] px-5 py-2 text-sm text-[#F4F1EC] transition hover:bg-[#1694a0] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <p className="p-base">
-              Siguiente
-            </p>
+            Siguiente
           </button>
         </div>
       )}

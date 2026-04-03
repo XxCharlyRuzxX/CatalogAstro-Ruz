@@ -14,21 +14,20 @@ export default function CatalogComponent() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
-
   const fetchCategories = async () => {
-    const categories = await categoryService.getAll();
-    setCategories(categories);
+    const data = await categoryService.getAll();
+    setCategories(data);
   };
+
   const fetchAllProducts = async () => {
-    const products = await productService.getAll();
-    setProducts(products);
-  }
+    const data = await productService.getAll();
+    setProducts(data);
+  };
 
   useEffect(() => {
     fetchCategories();
     fetchAllProducts();
   }, []);
-
 
   const handleSearchChange = async (params: GetProductsParams) => {
     const data = await productService.getAll(params);
@@ -37,32 +36,37 @@ export default function CatalogComponent() {
 
   const handleCategoryChange = async (categoryId: string) => {
     setSelectedCategory(categoryId);
+
+    if (categoryId === "all") {
+      const data = await productService.getAll();
+      setProducts(data);
+      return;
+    }
+
     const params: GetProductsParams = {
       filtredbyCategory: categoryId,
     };
+
     const data = await productService.getAll(params);
     setProducts(data);
   };
 
   return (
-    <div className="w-full">
-      <div className="bg-(--primary-blush) md:px-6 py-6">
-        <div className="flex w-full justify-center">
+    <div className="w-full bg-[#F1F6F6]">
+        <div className="mb-8">
           <SearchCatalog onChangeParams={handleSearchChange} />
         </div>
-      </div>
-      <div className="bg-white px-6 py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="px-4 sm:px-6 lg:px-8 pb-10">
+        <div className="mb-8">
           <SelectCategories
             handleCategoryChange={handleCategoryChange}
             selectedCategory={selectedCategory}
             categories={categories}
-          />
-          <ProductsCatalogComponent
-            products={products}
-          />
+            />
+        </div>
+
+        <ProductsCatalogComponent products={products} />
         </div>
       </div>
-    </div>
   );
 }

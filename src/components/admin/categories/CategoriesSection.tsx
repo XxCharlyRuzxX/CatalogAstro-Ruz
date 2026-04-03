@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import CategoriesAdminEdit from "./CategoriesAdminEdit";
-import CategoriesAdminTable from "./CategoriesAdminTable";
 import {
   categoryService,
   type GetCategoriesParams,
@@ -12,25 +10,13 @@ import {
   type ProductWithSelectionToCategory,
 } from "@/lib/interfaces/category";
 import AddCategoriesButton from "./AddCategoriesButton";
+import CategoriesAdminList from "./CategoriesAdminList";
+import EditCategoryProductsModal from "./EditCategoryProductModal";
+
 
 export default function CategoriesSection() {
-  const [categoryEdit, setCategoryEdit] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
-
-  const handleOnDelete = async (categoryId: string) => {
-    try {
-      await categoryService.deleteCategory(categoryId);
-      fetchCategories();
-      setCategoryEdit(null);
-      toast.success("Categoria eliminada correctamente");
-    } catch (error) {
-      console.error("Error deleting category:", error);
-    }
-  };
-
-  const handleOnEdit = (categoryId: string) => {
-    setCategoryEdit(categoryId);
-  };
+  const [categoryEdit, setCategoryEdit] = useState<string | null>(null);
 
   const fetchCategories = async () => {
     try {
@@ -38,16 +24,33 @@ export default function CategoriesSection() {
         orderBy: "name",
         orderType: "asc",
       };
-      const categoriesData = await categoryService.getAll(params);
-      setCategories(categoriesData);
+      const data = await categoryService.getAll(params);
+      setCategories(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
+      toast.error("Error al obtener las categorías");
     }
   };
 
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  const handleOnDelete = async (categoryId: string) => {
+    try {
+      await categoryService.deleteCategory(categoryId);
+      await fetchCategories();
+      setCategoryEdit(null);
+      toast.success("Categoría eliminada correctamente");
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      toast.error("Error al eliminar la categoría");
+    }
+  };
+
+  const handleOnEdit = (categoryId: string) => {
+    setCategoryEdit(categoryId);
+  };
 
   const handleOnSave = async (products: ProductWithSelectionToCategory[]) => {
     if (!categoryEdit) return;
@@ -68,7 +71,7 @@ export default function CategoriesSection() {
     }
   };
 
-  const handleOnSumit = async (category: CategoryDTO) => {
+  const handleOnSubmit = async (category: CategoryDTO) => {
     try {
       await categoryService.postCategory(category);
       await fetchCategories();
@@ -80,23 +83,25 @@ export default function CategoriesSection() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 justify-center gap-4 p-4 w-full">
-      <div>
-        <CategoriesAdminTable
-          onDelete={handleOnDelete}
-          onEdit={handleOnEdit}
-          categories={categories}
-        />
+    <div className="w-full">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <AddCategoriesButton onSubmit={handleOnSubmit} />
       </div>
+
+      <CategoriesAdminList
+        categories={categories}
+        onEdit={handleOnEdit}
+        onDelete={handleOnDelete}
+      />
+
       {categoryEdit && (
-        <div>
-          <CategoriesAdminEdit
-            categoryId={categoryEdit}
-            onSave={handleOnSave}
-          />
-        </div>
+        <EditCategoryProductsModal
+          categoryId={categoryEdit}
+          isOpen={!!categoryEdit}
+          onSave={handleOnSave}
+          CloseModal={() => setCategoryEdit(null)}
+        />
       )}
-      <AddCategoriesButton onSubmit={handleOnSumit}/>
     </div>
   );
 }
