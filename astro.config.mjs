@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import node from '@astrojs/node';
 import react from "@astrojs/react";
+import icon from "astro-icon";
 
 
 export default defineConfig({
@@ -9,7 +10,7 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone'
   }),
-  integrations: [react()],
+  integrations: [react(),icon()],
   vite: {
     plugins: [tailwindcss()],
     ssr: {
