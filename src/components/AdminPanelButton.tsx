@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { UserRoundCog } from "lucide-react";
 
 export default function AdminPanelButton() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -16,14 +17,10 @@ export default function AdminPanelButton() {
   return (
     <a
       href="/admin/panel"
-      className="fixed bottom-6 right-6 bg-black hover:bg-gray-800 p-3 rounded-full shadow-lg transition-all flex items-center justify-center"
+      className="fixed bottom-6 right-6 bg-black hover:bg-[#0F6C74] p-3 rounded-full shadow-lg transition-all flex items-center justify-center z-50"
       title="Panel de Admin"
     >
-      <img
-        className="w-[1.5625rem] h-[1.5625rem] sm:w-[1.875rem] sm:h-[1.875rem] md:w-[2.5rem] md:h-[2.5rem]"
-        src="/icons/admin.svg"
-        alt="Catálogo"
-      />
+      <UserRoundCog size={30} color="#fff" />
     </a>
   );
 }
