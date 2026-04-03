@@ -1,8 +1,8 @@
 import type { Product, ProductDTO } from "../interfaces";
 
 const BASE_URL = "/api/products";
-const WINDOW_LOCATION = import.meta.env.VITE_API_BASE_URL || "http://localhost:4321"
-
+const WINDOW_LOCATION =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:4321";
 
 export type GetProductsParams = {
   id?: string;
@@ -12,12 +12,11 @@ export type GetProductsParams = {
   searchTerm?: string;
 };
 
-
 function buildQueryURL(base: string, params?: GetProductsParams): string {
   const url = new URL(base, WINDOW_LOCATION);
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== "") {
+      if (value !== undefined && value !== null && value !== "") {
         url.searchParams.append(key, value);
       }
     });
@@ -55,7 +54,7 @@ export const productService = {
     return res.json() as Promise<Product[]>;
   },
 
-  async putProduct(product : ProductDTO , id : string) {
+  async putProduct(product: ProductDTO, id: string) {
     const url = buildQueryURL(BASE_URL, { id });
     const res = await fetch(url, {
       method: "PUT",
@@ -77,5 +76,5 @@ export const productService = {
 
     if (!res.ok) throw new Error("Error al eliminar el producto");
     return res.json() as Promise<{ message: string }>;
-  }
+  },
 };

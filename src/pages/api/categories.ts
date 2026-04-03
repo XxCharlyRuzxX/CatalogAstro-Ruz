@@ -1,8 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from "@/lib/service/prisma";
 import { buildCategoryData } from  "../../utils/categoriesUtils"
 import { error, success } from "../../utils/responseUtils";
 
-const prisma = new PrismaClient();
 
 
 export async function GET({ request }: { request: Request }) {

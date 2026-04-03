@@ -1,9 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import {prisma} from "@/lib/service/prisma";
 import { buildProductData, buildUpdateProductData , type RawProductData} from "../../utils/productUtils"
 import { success, error } from "../../utils/responseUtils";
-
-const prisma = new PrismaClient();
-
 
 export async function GET({ request }: { request: Request }) {
   const { searchParams }  = new URL(request.url);

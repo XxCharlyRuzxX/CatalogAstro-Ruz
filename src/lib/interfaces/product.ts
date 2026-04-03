@@ -7,8 +7,9 @@ export type Product = {
   priceProduct: number;
   description: string;
   brand: string;
+  stock: number;
   categoriesProduct?: Category[];
-}
+};
 
 export type ProductDTO = {
   idProduct?: string;
@@ -17,5 +18,6 @@ export type ProductDTO = {
   priceProduct: number;
   description: string;
   brand: string;
+  stock: number;
   categoriesProduct?: Category[];
-}
+};
