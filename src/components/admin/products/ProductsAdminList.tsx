@@ -34,9 +34,7 @@ export default function ProductsAdminList({
   if (products.length === 0) {
     return (
       <div className="rounded-[28px] bg-white/80 px-6 py-12 text-center shadow-[0_10px_30px_rgba(0,0,0,0.04)]">
-        <p className="text-lg text-[#5F6A66]">
-          No hay productos registrados.
-        </p>
+        <p className="text-lg text-[#5F6A66]">No hay productos registrados.</p>
       </div>
     );
   }
@@ -55,7 +53,7 @@ export default function ProductsAdminList({
                 alt={product.nameProduct}
                 className="h-24 w-24 rounded-2xl object-cover sm:h-28 sm:w-28"
                 loading="lazy"
-                />
+              />
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
@@ -95,6 +93,12 @@ export default function ProductsAdminList({
                   </p>
                 )}
 
+                {product.stock !== undefined && (
+                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-[#6B7773] sm:text-base">
+                    Existencia: {product.stock}
+                  </p>
+                )}
+
                 <div className="mt-4">
                   <p className="text-lg font-medium text-[#0F6C74] sm:text-xl">
                     ${product.priceProduct.toFixed(2)}
@@ -104,6 +108,14 @@ export default function ProductsAdminList({
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="flex mt-6 px-2 sm:px-0 items-center gap-6">
+        <div className="text-lg font-medium text-[#2F3433] sm:text-xl">Total de productos: {products.length}</div>
+        <div className="text-lg font-medium text-[#2F3433] sm:text-xl ml-auto">
+          Valor de inventario: $
+          {products.reduce((total, p) => total + p.priceProduct, 0).toFixed(2)}
+        </div>
       </div>
 
       {totalPages > 1 && (

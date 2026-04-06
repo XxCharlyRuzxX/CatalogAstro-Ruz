@@ -53,6 +53,14 @@ export default function ProductFormModal({
       "min-h-28 w-full resize-none rounded-2xl border border-[#D9E1DE] bg-[#FAFBFA] px-4 py-3 text-sm text-[#2F3433] outline-none transition placeholder:text-[#A0AAA6] focus:border-[#AFC4BD] focus:ring-2 focus:ring-[#DCE7E2]",
   });
 
+  const stock = useField("", {
+    type: "number",
+    placeholder: "Stock",
+    required: true,
+    className:
+      "h-12 w-full rounded-2xl border border-[#D9E1DE] bg-[#FAFBFA] px-4 text-sm text-[#2F3433] outline-none transition placeholder:text-[#A0AAA6] focus:border-[#AFC4BD] focus:ring-2 focus:ring-[#DCE7E2]",
+  });
+
   const { file, getRootProps, getInputProps, isDragActive, clearFile } =
     useDropzoneUpload();
 
@@ -62,11 +70,13 @@ export default function ProductFormModal({
       brand.setValue(initialProduct.brand);
       priceProduct.setValue(initialProduct.priceProduct.toString());
       description.setValue(initialProduct.description);
+      stock.setValue(initialProduct.stock.toString());
     } else {
       nameProduct.reset();
       brand.reset();
       priceProduct.reset();
       description.reset();
+      stock.reset();
       clearFile();
     }
   }, [initialProduct, isOpen]);
@@ -86,7 +96,8 @@ export default function ProductFormModal({
       priceProduct: Number.parseFloat(priceProduct.value),
       imgProduct: imageUrl,
       description: description.value,
-      categoriesProduct: [],
+      stock: Number.parseInt(stock.value),
+      categoriesProduct: initialProduct?.categoriesProduct || [],
     });
 
     nameProduct.reset();
@@ -230,6 +241,18 @@ export default function ProductFormModal({
           >
             {submitLabel}
           </button>
+          <div className="flex flex-col gap-2">
+              <label htmlFor="productStock" className="text-sm font-medium text-[#2F3433]">
+                Stock
+              </label>
+              <input
+                id="productStock"
+                min="0"
+                step="1"
+                type={stock.type}
+                {...stock.bind}
+              />
+            </div>
         </form>
       </div>
     </div>

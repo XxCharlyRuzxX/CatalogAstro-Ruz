@@ -1,4 +1,5 @@
 import type { Product } from "@/lib/interfaces";
+import { productService } from "@/lib/service/productService";
 import { toast } from "react-toastify";
 
 export interface SelectedProduct {
@@ -6,7 +7,7 @@ export interface SelectedProduct {
   quantity: number;
 }
 
-const STORAGE_KEY = "productsSelected";
+export const STORAGE_KEY = "productsSelected";
 const NUMBER_PHONE = "529992141860";
 
 export function getSelectedProducts(): SelectedProduct[] {
@@ -14,11 +15,82 @@ export function getSelectedProducts(): SelectedProduct[] {
   return stored ? JSON.parse(stored) : [];
 }
 
+export async function syncAndGetCart(): Promise<SelectedProduct[]> {
+  const currentCart = getSelectedProducts();
+
+  if (currentCart.length === 0) return [];
+
+  try {
+    const freshCartPromises = currentCart.map(async (item) => {
+      try {
+        const freshProduct = await productService.getById({
+          id: item.product.idProduct,
+        });
+
+        // 1. Manejar explícitamente el stock 0 para AVISAR al usuario
+        if (freshProduct.stock === 0) {
+          toast.error(
+            `El producto "${item.product.nameProduct}" se ha agotado y fue removido del carrito.`,
+          );
+          return null; // Lo marcamos para eliminar
+        }
+
+        const validQuantity = Math.min(item.quantity, freshProduct.stock);
+
+        // Opcional (Buena UX): Avisar si la cantidad se tuvo que reducir
+        if (validQuantity < item.quantity) {
+          toast.info(
+            `La cantidad de "${item.product.nameProduct}" se ajustó a ${validQuantity} por límite de stock.`,
+          );
+        }
+
+        return {
+          product: freshProduct,
+          quantity: validQuantity,
+        };
+      } catch (error: any) {
+        // 2. Diferenciar entre "Producto no encontrado (404)" y "Fallo de red/servidor"
+        // NOTA: Ajusta `error.status === 404` a cómo tu cliente HTTP maneje los errores (ej. error.response.status en Axios)
+        const isNotFoundError =
+          error?.response?.status === 404 || error?.status === 404;
+
+        if (isNotFoundError) {
+          toast.error(
+            `El producto "${item.product.nameProduct}" ya no está disponible en la tienda.`,
+          );
+          return null;
+        } else {
+          throw error;
+        }
+      }
+    });
+
+    const resolvedCart = await Promise.all(freshCartPromises);
+
+    const validCart = resolvedCart.filter(
+      (item): item is SelectedProduct => item !== null,
+    );
+
+    setSelectedProducts(validCart);
+
+    return validCart;
+  } catch (error) {
+    console.error("Error de conexión al sincronizar el carrito:", error);
+    toast.error("Hubo un problema de conexión al actualizar tu carrito.");
+    return currentCart;
+  }
+}
+
 export function setSelectedProducts(products: SelectedProduct[]): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
 }
 
 export function addProduct(product: Product): void {
+  if (product.stock === 0) {
+    toast.error(`Lo sentimos, "${product.nameProduct}" está agotado.`);
+    return;
+  }
+
   const current = getSelectedProducts();
 
   const existing = current.find(
@@ -26,33 +98,37 @@ export function addProduct(product: Product): void {
   );
 
   if (existing) {
-    toast.info(`"${product.nameProduct}" ya está en el carrito` , { style: {
-      background: "#0F6C74",
-    }});
-  } else {
-    current.push({
-      product,
-      quantity: 1,
+    toast.info(`"${product.nameProduct}" ya está en el carrito`, {
+      style: {
+        background: "#0F6C74",
+      },
     });
+  } else {
+    const updatedProducts = [
+      ...current,
+      {
+        product,
+        quantity: 1,
+      },
+    ];
+
     toast.success(`"${product.nameProduct}" añadido al carrito`, {
       style: {
         background: "#2C3E3A",
       },
     });
+    setSelectedProducts(updatedProducts);
   }
-
-  setSelectedProducts(current);
 }
 
 export function increaseProductQuantity(id: string): void {
   const current = getSelectedProducts();
 
   const updated = current.map((item) =>
-    item.product.idProduct === id
+    item.product.idProduct === id && item.quantity < item.product.stock
       ? { ...item, quantity: item.quantity + 1 }
       : item,
   );
-
   setSelectedProducts(updated);
 }
 

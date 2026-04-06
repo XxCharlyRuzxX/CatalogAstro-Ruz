@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import MyProductsList from "./MyProductsList";
-import { getSelectedProducts } from "@/utils/selectedProducts";
+import { syncAndGetCart } from "@/utils/selectedProducts";
 import type { SelectedProduct } from "@/lib/interfaces/selectedProduct";
 
 export default function MyProductsComponent() {
   const [products, setProducts] = useState<SelectedProduct[]>([]);
 
   useEffect(() => {
-    const selected = getSelectedProducts();
-    setProducts(selected);
+    syncAndGetCart().then((freshProducts) => {
+      setProducts(freshProducts);
+    });
   }, []);
 
   return (

@@ -9,6 +9,7 @@ import {
 import ConfirmationModal from "../react-components/ConfirmationModal";
 import OrderComponent from "./OrderComponet";
 import { Minus, Plus, X } from "lucide-react";
+import { toast } from "react-toastify";
 
 interface MyProductsListProps {
   readonly products: SelectedProduct[];
@@ -51,12 +52,15 @@ export default function MyProductsList({
 
   const handleModalAccept = () => {
     if (!productToRemoveId) return;
-
     removeProduct(productToRemoveId);
     setProducts(getSelectedProducts());
-
     setIsOpenModal(false);
     setProductToRemoveId(null);
+    toast.success("Producto eliminado del carrito", {
+      style: {
+        background: "#2C3E3A",
+      },
+    });
   };
 
   if (products.length === 0) {

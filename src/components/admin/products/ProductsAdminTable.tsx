@@ -62,6 +62,7 @@ export default function ProductsAdminSection() {
     }
 
     try {
+      console.log("Enviando producto editado:", { id: selectedProductId, ...product });
       await productService.putProduct(product, selectedProductId);
       await fetchAllProducts();
       toast.success("Producto actualizado correctamente");

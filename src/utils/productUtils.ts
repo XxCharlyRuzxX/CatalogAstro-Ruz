@@ -7,6 +7,7 @@ export type RawProductData = {
   priceProduct: number;
   description: string;
   brand: string;
+  stock: number;
   categoriesProduct: RawCategory[];
 };
 
@@ -18,6 +19,7 @@ export function buildProductData(data: RawProductData) {
     priceProduct: data.priceProduct,
     description: data.description,
     brand: data.brand,
+    stock: data.stock,
     ...(data.categoriesProduct?.length && {
       categoriesProduct: {
         connect: data.categoriesProduct.map((cat) => ({ id: cat.id })),
@@ -34,6 +36,7 @@ export function buildUpdateProductData(data: RawProductData) {
     priceProduct: data.priceProduct,
     description: data.description,
     brand: data.brand,
+    stock: data.stock,
     categoriesProduct: {
       set: [],
       connect: data.categoriesProduct.map((cat) => ({ id: cat.id })),
