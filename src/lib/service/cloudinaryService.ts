@@ -1,6 +1,6 @@
-export const CLOUD_NAME = "duwziizmm";
-export const UPLOAD_PRESET = "upload_unsigned_preset";
-const API_KEY = "317634556962438";
+export const CLOUD_NAME = import.meta.env.PUBLIC_CLOUDINARY_CLOUD_NAME;
+export const UPLOAD_PRESET = import.meta.env.PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+const API_KEY = import.meta.env.PUBLIC_CLOUDINARY_API_KEY;
 
 
 interface UploadResult {
