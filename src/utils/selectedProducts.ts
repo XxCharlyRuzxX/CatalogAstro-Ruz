@@ -23,9 +23,9 @@ export async function syncAndGetCart(): Promise<SelectedProduct[]> {
   try {
     const freshCartPromises = currentCart.map(async (item) => {
       try {
-        const freshProduct = await productService.getById({
-          id: item.product.idProduct,
-        });
+        const freshProduct = await productService.getById(
+          item.product.idProduct
+        );
 
         // 1. Manejar explícitamente el stock 0 para AVISAR al usuario
         if (freshProduct.stock === 0) {
