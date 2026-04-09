@@ -7,7 +7,7 @@ const { product } = Astro.props as { product: Product };
   <div
     class="overflow-hidden rounded-2xl bg-[#747877] transition-transform duration-300 group-hover:scale-[1.02] hover:shadow-lg hover:scale-[1.02]"
   >
-    <div class="w-full aspect-[3/2] overflow-hidden">
+    <div class="w-full aspect-3/2 overflow-hidden">
       <Image
         src={product.imgProduct}
         alt={product.nameProduct}
