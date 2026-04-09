@@ -1,13 +1,13 @@
 ---
 import AboutUs from "@/components/main-page/AboutUs.astro";
 import HeroMain from "@/components/main-page/HeroMain.astro";
-import PopularProducts from "@/components/main-page/PopularProducts.astro";
+import { PopularProducts } from "@/components/main-page/PopularProducts.tsx";
 import Layout from "@layouts/Layout.astro";
 export const prerender = false;
 ---
 
 <Layout>
   <HeroMain />
-  <PopularProducts />
+  <PopularProducts client:load/>
   <AboutUs />
 </Layout>
