@@ -13,7 +13,7 @@ export type GetProductsParams = {
 };
 
 function buildQueryURL(base: string, params?: GetProductsParams): string {
-  const url = new URL(base, WINDOW_LOCATION);
+  const url = new URL(base, globalThis.location.origin);
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== "") {

@@ -10,7 +10,7 @@ export type GetCategoriesParams = {
 };
 
 function buildQueryURL(base: string, params?: GetCategoriesParams): string {
-  const url = new URL(base, WINDOW_LOCATION);
+  const url = new URL(base, globalThis.location.origin);
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
