@@ -7,8 +7,19 @@ const params: GetProductsParams = {
   filtredbyCategory: "Populares",
 };
 
-console.log("ASTRO ORIGIN:", Astro.url.origin);
-const products: Product[] = await productService.getAll(params , Astro.url.origin);
+let products: Product[] = [];
+let debugMessage = "inicio";
+
+try {
+  debugMessage = `origin: ${Astro.url.origin}`;
+
+  products = await productService.getAll(params, Astro.url.origin);
+
+  debugMessage = `ok, productos: ${products.length}`;
+} catch (error) {
+  debugMessage =
+    error instanceof Error ? error.message : "error desconocido";
+}
 ---
 
 <section class="bg-[#F1F6F6] px-4 py-16 sm:px-6 lg:px-8">
