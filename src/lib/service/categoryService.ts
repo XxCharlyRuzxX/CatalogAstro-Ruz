@@ -1,7 +1,6 @@
 import type { Category, CategoryDTO } from "../interfaces";
 
 const BASE_URL = "/api/categories";
-const WINDOW_LOCATION = import.meta.env.VITE_API_BASE_URL || "http://localhost:4321"
 
 export type GetCategoriesParams = {
   id?: string;
@@ -10,55 +9,80 @@ export type GetCategoriesParams = {
 };
 
 function buildQueryURL(base: string, params?: GetCategoriesParams): string {
-  const url = new URL(base, globalThis.location.origin);
+  const searchParams = new URLSearchParams();
+
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
-        url.searchParams.append(key, value);
+        searchParams.append(key, String(value));
       }
     });
   }
-  return url.toString();
+
+  const query = searchParams.toString();
+  return query ? `${base}?${query}` : base;
+}
+
+function buildFinalURL(path: string, origin?: string): string {
+  return origin ? `${origin}${path}` : path;
 }
 
 export const categoryService = {
-  async getAll(params?: GetCategoriesParams): Promise<Category[]> {
-    const url = buildQueryURL(BASE_URL, params);
+  async getAll(params?: GetCategoriesParams, origin?: string): Promise<Category[]> {
+    const path = buildQueryURL(BASE_URL, params);
+    const url = buildFinalURL(path, origin);
+
     const res = await fetch(url);
     if (!res.ok) throw new Error("Error al obtener las categorías");
+
     return res.json();
   },
 
-  async getById(id: string): Promise<Category | null> {
-    const url = buildQueryURL(BASE_URL, { id });
+  async getById(id: string, origin?: string): Promise<Category | null> {
+    const path = buildQueryURL(BASE_URL, { id });
+    const url = buildFinalURL(path, origin);
+
     const res = await fetch(url);
     if (!res.ok) throw new Error("Error al obtener la categoría");
+
     return res.json();
   },
 
-  async postCategory(category: CategoryDTO): Promise<Category> {
-    const res = await fetch(BASE_URL, {
+  async postCategory(category: CategoryDTO, origin?: string): Promise<Category> {
+    const url = buildFinalURL(BASE_URL, origin);
+
+    const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(category),
     });
+
     if (!res.ok) throw new Error("Error al crear la categoría");
     return res.json();
   },
 
-  async putCategory(id: string, category: Category): Promise<Category> {
-    const url = buildQueryURL(BASE_URL, { id });
+  async putCategory(id: string, category: Category, origin?: string): Promise<Category> {
+    const path = buildQueryURL(BASE_URL, { id });
+    const url = buildFinalURL(path, origin);
+
     const res = await fetch(url, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(category),
     });
+
     if (!res.ok) throw new Error("Error al actualizar la categoría");
     return res.json();
   },
 
-  async assignProductsToCategory(categoryId: string, productIds: string[]) {
-    const res = await fetch(BASE_URL, {
+  async assignProductsToCategory(
+    categoryId: string,
+    productIds: string[],
+    origin?: string
+  ) {
+    const url = buildFinalURL(BASE_URL, origin);
+
+    const res = await fetch(url, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ categoryId, productIds }),
@@ -68,10 +92,13 @@ export const categoryService = {
     return res.json();
   },
 
-  async deleteCategory(id: string): Promise<{ message: string }> {
-    const url = buildQueryURL(BASE_URL, { id });
+  async deleteCategory(id: string, origin?: string): Promise<{ message: string }> {
+    const path = buildQueryURL(BASE_URL, { id });
+    const url = buildFinalURL(path, origin);
+
     const res = await fetch(url, { method: "DELETE" });
     if (!res.ok) throw new Error("Error al eliminar la categoría");
+
     return res.json();
   },
 };

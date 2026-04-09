@@ -7,7 +7,7 @@ const params: GetProductsParams = {
   filtredbyCategory: "Populares",
 };
 
-const products: Product[] = await productService.getAll(params);
+const products: Product[] = await productService.getAll(params , Astro.url.origin);
 ---
 
 <section class="bg-[#F1F6F6] px-4 py-16 sm:px-6 lg:px-8">

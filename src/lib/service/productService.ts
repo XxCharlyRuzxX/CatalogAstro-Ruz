@@ -1,8 +1,6 @@
 import type { Product, ProductDTO } from "../interfaces";
 
 const BASE_URL = "/api/products";
-const WINDOW_LOCATION =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:4321";
 
 export type GetProductsParams = {
   id?: string;
@@ -13,49 +11,65 @@ export type GetProductsParams = {
 };
 
 function buildQueryURL(base: string, params?: GetProductsParams): string {
-  const url = new URL(base, globalThis.location.origin);
+  const searchParams = new URLSearchParams();
+
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== "") {
-        url.searchParams.append(key, value);
+        searchParams.append(key, String(value));
       }
     });
   }
-  return url.toString();
+
+  const query = searchParams.toString();
+  return query ? `${base}?${query}` : base;
+}
+
+function buildFinalURL(path: string, origin?: string): string {
+  return origin ? `${origin}${path}` : path;
 }
 
 export const productService = {
-  async getAll(params?: GetProductsParams) {
-    const url = buildQueryURL(BASE_URL, params);
+  async getAll(params?: GetProductsParams, origin?: string) {
+    const path = buildQueryURL(BASE_URL, params);
+    const url = buildFinalURL(path, origin);
 
     const res = await fetch(url);
     if (!res.ok) throw new Error("Error al obtener los productos");
+
     return res.json() as Promise<Product[]>;
   },
 
-  async getById(params?: GetProductsParams) {
-    const url = buildQueryURL(BASE_URL, params);
+  async getById(id: string, origin?: string) {
+    const path = buildQueryURL(BASE_URL, { id });
+    const url = buildFinalURL(path, origin);
 
     const res = await fetch(url);
-    if (!res.ok) throw new Error("Error al obtener producto por ID");
+    if (!res.ok) throw new Error("Error al obtener el producto");
+
     return res.json() as Promise<Product>;
   },
 
-  async postProducts(products: ProductDTO[]) {
-    const res = await fetch(BASE_URL, {
+  async create(product: ProductDTO, origin?: string) {
+    const url = buildFinalURL(BASE_URL, origin);
+
+    const res = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(products),
+      body: JSON.stringify(product),
     });
 
-    if (!res.ok) throw new Error("Error al crear los productos");
-    return res.json() as Promise<Product[]>;
+    if (!res.ok) throw new Error("Error al crear el producto");
+
+    return res.json() as Promise<Product>;
   },
 
-  async putProduct(product: ProductDTO, id: string) {
-    const url = buildQueryURL(BASE_URL, { id });
+  async update(id: string, product: ProductDTO, origin?: string) {
+    const path = buildQueryURL(BASE_URL, { id });
+    const url = buildFinalURL(path, origin);
+
     const res = await fetch(url, {
       method: "PUT",
       headers: {
@@ -65,16 +79,20 @@ export const productService = {
     });
 
     if (!res.ok) throw new Error("Error al actualizar el producto");
+
     return res.json() as Promise<Product>;
   },
 
-  async deleteProduct(id: string) {
-    const url = buildQueryURL(BASE_URL, { id });
+  async delete(id: string, origin?: string) {
+    const path = buildQueryURL(BASE_URL, { id });
+    const url = buildFinalURL(path, origin);
+
     const res = await fetch(url, {
       method: "DELETE",
     });
 
     if (!res.ok) throw new Error("Error al eliminar el producto");
-    return res.json() as Promise<{ message: string }>;
+
+    return res.json();
   },
 };
