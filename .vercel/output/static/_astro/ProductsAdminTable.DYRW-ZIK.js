@@ -1,0 +1,1 @@
+import"./jsx-runtime.u17CrQMm.js";import"./index.BS6quCaC.js";import"./productService.-NrACKLW.js";import"./index.B-LAWDH9.js";import{a as e}from"./ProductsAdminTable.DqEnodiS.js";import"./ConfirmationModal.DJBAICcy.js";export{e as default};

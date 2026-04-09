@@ -1,0 +1,1 @@
+import{j as t}from"./jsx-runtime.u17CrQMm.js";import{L as o}from"./index.B-LAWDH9.js";function i(){return t.jsx(o,{position:"bottom-right",autoClose:3e3,theme:"colored",toastStyle:{minWidth:"65vh"}})}export{i as default};

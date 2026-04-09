@@ -1,0 +1,25 @@
+---
+import Layout from "@layouts/Layout.astro";
+import CatalogComponent from "@/components/catalog/CatalogComponent";
+export const prerender = false;
+---
+
+<Layout>
+  <section class="bg-[#2C3E3A] px-4 pt-10 pb-6 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl text-center md:py-6">
+      <h1
+        class="text-4xl sm:text-5xl lg:text-6xl font-light text-[#F4F1EC] leading-tight"
+      >
+        Nuestro Catálogo
+      </h1>
+      <div class="mx-auto mt-4 h-[2px] w-30 bg-[#8FA39E]"></div>
+      <p
+        class="mt-4 text-xs sm:text-sm tracking-[0.25em] uppercase text-[#a3aba8]"
+      >
+        Productos seleccionados para destacar tu estilo
+      </p>
+    </div>
+  </section>
+
+  <CatalogComponent client:load />
+</Layout>
