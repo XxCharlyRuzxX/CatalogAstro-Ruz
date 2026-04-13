@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import type { Product, ProductDTO } from "@/lib/interfaces";
 import { productService } from "@/lib/service/productService";
-import { toast } from "react-toastify";
 import AddProductsButton from "../products/AddProductsButton";
 import EditProductsModal from "../products/EditProductsModal";
 import ConfirmationModal from "../../react-components/ConfirmationModal";
 import SearchAdminProducts from "./SearchAdminProducts";
 import ProductsAdminList from "./ProductsAdminList";
+import { GlobalToast } from "@/components/GlobalToast";
 
 export default function ProductsAdminSection() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -42,33 +42,33 @@ export default function ProductsAdminSection() {
 
   const onDeleteProduct = async (productId: string | null) => {
     if (!productId) {
-      toast.error("ID de producto no válido");
+      GlobalToast.error("ID de producto no válido");
       return;
     }
 
     try {
-      await productService.deleteProduct(productId);
+      await productService.delete(productId);
       await fetchAllProducts();
-      toast.success("Producto eliminado correctamente");
+      GlobalToast.success("Producto eliminado correctamente");
     } catch (error) {
-      toast.error("Error al eliminar el producto: " + (error as Error).message);
+      GlobalToast.error("Error al eliminar el producto: " + (error as Error).message);
     }
   };
 
   const onSubmitEditProduct = async (product: ProductDTO) => {
     if (!selectedProductId) {
-      toast.error("ID de producto no válido");
+      GlobalToast.error("ID de producto no válido");
       return;
     }
 
     try {
       console.log("Enviando producto editado:", { id: selectedProductId, ...product });
-      await productService.putProduct(product, selectedProductId);
+      await productService.update(product);
       await fetchAllProducts();
-      toast.success("Producto actualizado correctamente");
+      GlobalToast.success("Producto actualizado correctamente");
       setIsOpenModalEdit(false);
     } catch (error) {
-      toast.error(
+      GlobalToast.error(
         "Error al actualizar el producto: " + (error as Error).message,
       );
     }
@@ -76,11 +76,11 @@ export default function ProductsAdminSection() {
 
   const onSubmitAddProducts = async (product: ProductDTO) => {
     try {
-      await productService.postProducts([product]);
+      await productService.post([product]);
       await fetchAllProducts();
-      toast.success("Producto añadido correctamente");
+      GlobalToast.success("Producto añadido correctamente");
     } catch (error) {
-      toast.error("Error al añadir el producto: " + (error as Error).message);
+      GlobalToast.error("Error al añadir el producto: " + (error as Error).message);
     }
   };
 

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import type { Product, ProductDTO } from "@/lib/interfaces";
 import {
   productService,
-  type GetProductsParams,
 } from "@/lib/service/productService";
 import ProductFormModal from "./ProductFormModal";
 
@@ -23,8 +22,7 @@ export default function EditProductsModal({
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const params: GetProductsParams = { id: productId };
-      const fetchedProduct = await productService.getById(params);
+      const fetchedProduct = await productService.getById(productId);
       setProduct(fetchedProduct);
     };
 

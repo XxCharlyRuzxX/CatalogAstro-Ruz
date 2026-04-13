@@ -1,7 +1,7 @@
 import { useState } from "react";
 import OrderProductsModal from "./OrderProdutsModal";
-import { toast } from "react-toastify";
 import { MessageCircleMore } from "lucide-react";
+import { GlobalToast } from "../GlobalToast";
 
 interface OrderComponentProps {
   readonly productsNumber: number;
@@ -14,7 +14,7 @@ export default function OrderComponent({
 
   const handleButtonClick = () => {
     if (productsNumber < 1) {
-      toast.error("No tienes productos en el carrito");
+      GlobalToast.error("No tienes productos en el carrito");
       return;
     }
     setOpenModal(true);

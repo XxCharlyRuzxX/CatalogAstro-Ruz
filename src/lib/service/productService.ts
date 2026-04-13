@@ -66,8 +66,8 @@ export const productService = {
     return res.json() as Promise<Product>;
   },
 
-  async update(id: string, product: ProductDTO, origin?: string) {
-    const path = buildQueryURL(BASE_URL, { id });
+  async update(product: ProductDTO, origin?: string) {
+    const path = buildQueryURL(BASE_URL, { id: product.idProduct });
     const url = buildFinalURL(path, origin);
 
     const res = await fetch(url, {
@@ -95,4 +95,20 @@ export const productService = {
 
     return res.json();
   },
+
+  async post(products: ProductDTO[], origin?: string) {
+    const url = buildFinalURL(BASE_URL, origin);
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(products),
+    });
+
+    if (!res.ok) throw new Error("Error al crear los productos");
+
+    return res.json() as Promise<Product[]>;
+  }
 };

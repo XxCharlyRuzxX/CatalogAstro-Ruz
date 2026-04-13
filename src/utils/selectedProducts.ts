@@ -1,6 +1,6 @@
+import { GlobalToast } from "@/components/GlobalToast";
 import type { Product } from "@/lib/interfaces";
 import { productService } from "@/lib/service/productService";
-import { toast } from "react-toastify";
 
 export interface SelectedProduct {
   product: Product;
@@ -29,7 +29,7 @@ export async function syncAndGetCart(): Promise<SelectedProduct[]> {
 
         // 1. Manejar explícitamente el stock 0 para AVISAR al usuario
         if (freshProduct.stock === 0) {
-          toast.error(
+          GlobalToast.error(
             `El producto "${item.product.nameProduct}" se ha agotado y fue removido del carrito.`,
           );
           return null; // Lo marcamos para eliminar
@@ -39,7 +39,7 @@ export async function syncAndGetCart(): Promise<SelectedProduct[]> {
 
         // Opcional (Buena UX): Avisar si la cantidad se tuvo que reducir
         if (validQuantity < item.quantity) {
-          toast.info(
+          GlobalToast.info(
             `La cantidad de "${item.product.nameProduct}" se ajustó a ${validQuantity} por límite de stock.`,
           );
         }
@@ -55,7 +55,7 @@ export async function syncAndGetCart(): Promise<SelectedProduct[]> {
           error?.response?.status === 404 || error?.status === 404;
 
         if (isNotFoundError) {
-          toast.error(
+          GlobalToast.error(
             `El producto "${item.product.nameProduct}" ya no está disponible en la tienda.`,
           );
           return null;
@@ -76,7 +76,7 @@ export async function syncAndGetCart(): Promise<SelectedProduct[]> {
     return validCart;
   } catch (error) {
     console.error("Error de conexión al sincronizar el carrito:", error);
-    toast.error("Hubo un problema de conexión al actualizar tu carrito.");
+    GlobalToast.error("Hubo un problema de conexión al actualizar tu carrito.");
     return currentCart;
   }
 }
@@ -87,7 +87,7 @@ export function setSelectedProducts(products: SelectedProduct[]): void {
 
 export function addProduct(product: Product): void {
   if (product.stock === 0) {
-    toast.error(`Lo sentimos, "${product.nameProduct}" está agotado.`);
+    GlobalToast.error(`Lo sentimos, "${product.nameProduct}" está agotado.`);
     return;
   }
 
@@ -98,11 +98,7 @@ export function addProduct(product: Product): void {
   );
 
   if (existing) {
-    toast.info(`"${product.nameProduct}" ya está en el carrito`, {
-      style: {
-        background: "#0F6C74",
-      },
-    });
+    GlobalToast.info(`"${product.nameProduct}" ya está en el carrito`);
   } else {
     const updatedProducts = [
       ...current,
@@ -112,11 +108,7 @@ export function addProduct(product: Product): void {
       },
     ];
 
-    toast.success(`"${product.nameProduct}" añadido al carrito`, {
-      style: {
-        background: "#2C3E3A",
-      },
-    });
+    GlobalToast.success(`"${product.nameProduct}" añadido al carrito`);
     setSelectedProducts(updatedProducts);
   }
 }

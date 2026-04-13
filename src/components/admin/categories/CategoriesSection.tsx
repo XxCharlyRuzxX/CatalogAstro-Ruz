@@ -3,7 +3,6 @@ import {
   categoryService,
   type GetCategoriesParams,
 } from "@/lib/service/categoryService";
-import { toast } from "react-toastify";
 import {
   type Category,
   type CategoryDTO,
@@ -12,6 +11,7 @@ import {
 import AddCategoriesButton from "./AddCategoriesButton";
 import CategoriesAdminList from "./CategoriesAdminList";
 import EditCategoryProductsModal from "./EditCategoryProductModal";
+import { GlobalToast } from "@/components/GlobalToast";
 
 
 export default function CategoriesSection() {
@@ -28,7 +28,7 @@ export default function CategoriesSection() {
       setCategories(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
-      toast.error("Error al obtener las categorías");
+      GlobalToast.error("Error al obtener las categorías");
     }
   };
 
@@ -41,10 +41,10 @@ export default function CategoriesSection() {
       await categoryService.deleteCategory(categoryId);
       await fetchCategories();
       setCategoryEdit(null);
-      toast.success("Categoría eliminada correctamente");
+      GlobalToast.success("Categoría eliminada correctamente");
     } catch (error) {
       console.error("Error deleting category:", error);
-      toast.error("Error al eliminar la categoría");
+      GlobalToast.error("Error al eliminar la categoría");
     }
   };
 
@@ -63,11 +63,11 @@ export default function CategoriesSection() {
       await categoryService.assignProductsToCategory(categoryEdit, productIds);
       await fetchCategories();
 
-      toast.success("Categoría actualizada correctamente");
+      GlobalToast.success("Categoría actualizada correctamente");
       setCategoryEdit(null);
     } catch (error) {
       console.error("Error actualizando productos:", error);
-      toast.error("Error al actualizar los productos");
+      GlobalToast.error("Error al actualizar los productos");
     }
   };
 
@@ -75,10 +75,10 @@ export default function CategoriesSection() {
     try {
       await categoryService.postCategory(category);
       await fetchCategories();
-      toast.success("Categoría creada correctamente");
+      GlobalToast.success("Categoría creada correctamente");
     } catch (error) {
       console.error("Error creando categoría:", error);
-      toast.error("Error al crear la categoría");
+      GlobalToast.error("Error al crear la categoría");
     }
   };
 
