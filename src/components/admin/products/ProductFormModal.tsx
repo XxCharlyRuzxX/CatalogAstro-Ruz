@@ -91,6 +91,7 @@ export default function ProductFormModal({
     }
 
     await onSubmit({
+      idProduct: initialProduct?.idProduct,
       nameProduct: nameProduct.value,
       brand: brand.value,
       priceProduct: Number.parseFloat(priceProduct.value),
